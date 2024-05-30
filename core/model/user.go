@@ -1,4 +1,4 @@
-package models
+package model
 
 import (
 	"base-trade-rest/core/helpers"
@@ -17,7 +17,7 @@ type User struct {
 	CreatedAt *time.Time `json:"created_at"`
 	UpdatedAt *time.Time `json:"update_at"`
 
-	Products []Product `gorm:"constraint:OnUpdate:CASCADE,OnDelete:RESTRICT;" json:"products"`
+	Products []Product `gorm:"constraint:OnUpdate:CASCADE,OnDelete:RESTRICT;" json:"products,omitempty"`
 }
 
 func (u *User) BeforeCreate(tx *gorm.DB) (err error) {

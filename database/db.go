@@ -1,7 +1,7 @@
 package database
 
 import (
-	"base-trade-rest/core/models"
+	"base-trade-rest/core/model"
 	"fmt"
 	"log"
 	"os"
@@ -36,7 +36,7 @@ func StartDB() {
 		panic("failed to connect database")
 	}
 
-	db.Debug().AutoMigrate(models.User{}, models.Product{}, models.Variant{})
+	db.Debug().AutoMigrate(model.User{}, model.Product{}, model.Variant{})
 }
 
 func GetDB() *gorm.DB {
