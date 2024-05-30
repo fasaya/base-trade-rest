@@ -1,7 +1,7 @@
 package database
 
 import (
-	"base-trade-rest/models"
+	"base-trade-rest/core/models"
 	"fmt"
 	"log"
 	"os"

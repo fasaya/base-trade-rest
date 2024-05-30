@@ -2,13 +2,11 @@ package models
 
 import (
 	"time"
-
-	"github.com/google/uuid"
 )
 
 type Product struct {
 	ID        uint       `gorm:"primaryKey" json:"id"`
-	UUID      uuid.UUID  `gorm:"type:uuid;default:uuid_generate_v4()" json:"uuid"`
+	UUID      string     `gorm:"not null" json:"uuid"`
 	Name      string     `gorm:"not null" json:"name"`
 	ImageURL  *string    `json:"image_url"`
 	UserID    uint       `gorm:"not null" json:"user_id"`
