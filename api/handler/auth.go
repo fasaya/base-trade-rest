@@ -4,7 +4,6 @@ import (
 	"base-trade-rest/api/request"
 	"base-trade-rest/api/resource"
 	"base-trade-rest/core/helpers"
-	"base-trade-rest/core/model"
 	"base-trade-rest/core/service"
 	"net/http"
 
@@ -22,23 +21,17 @@ func NewAuthHandler(userService service.IUserService) *AuthHandler {
 }
 
 func (h *AuthHandler) UserRegister(ctx *gin.Context) {
-	var user model.User
+	var user request.AuthRegisterRequest
 
 	err := ctx.ShouldBind(&user)
 	if err != nil {
-		ctx.AbortWithStatusJSON(
-			http.StatusBadRequest,
-			helpers.CreateFailResponse(err.Error(), http.StatusBadRequest),
-		)
+		helpers.CreateFailedResponse(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
 
 	newUser, err := h.userService.CreateUser(&user)
 	if err != nil {
-		ctx.AbortWithStatusJSON(
-			http.StatusBadRequest,
-			helpers.CreateFailResponse(err.Error(), http.StatusBadRequest),
-		)
+		helpers.CreateFailedResponse(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
 
@@ -46,11 +39,7 @@ func (h *AuthHandler) UserRegister(ctx *gin.Context) {
 	var authResource resource.AuthResource
 	copier.Copy(&authResource, &newUser)
 
-	ctx.JSON(
-		http.StatusOK,
-		helpers.CreateSuccessResponse("Registered successfully", http.StatusOK, authResource),
-	)
-
+	helpers.CreateSuccessfulResponse(ctx, http.StatusOK, "Registered successfully", authResource)
 }
 
 func (h *AuthHandler) UserLogin(ctx *gin.Context) {
@@ -58,19 +47,13 @@ func (h *AuthHandler) UserLogin(ctx *gin.Context) {
 
 	err := ctx.ShouldBind(&request)
 	if err != nil {
-		ctx.AbortWithStatusJSON(
-			http.StatusBadRequest,
-			helpers.CreateFailResponse(err.Error(), http.StatusBadRequest),
-		)
+		helpers.CreateFailedResponse(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
 
 	user, err := h.userService.ValidateCredentials(request)
 	if err != nil {
-		ctx.AbortWithStatusJSON(
-			http.StatusBadRequest,
-			helpers.CreateFailResponse(err.Error(), http.StatusBadRequest),
-		)
+		helpers.CreateFailedResponse(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
 
@@ -80,8 +63,5 @@ func (h *AuthHandler) UserLogin(ctx *gin.Context) {
 
 	authResource.Token = helpers.GenerateToken(user.ID, user.Email)
 
-	ctx.JSON(
-		http.StatusOK,
-		helpers.CreateSuccessResponse("Login successfully", http.StatusOK, authResource),
-	)
+	helpers.CreateSuccessfulResponse(ctx, http.StatusOK, "Login successfully", authResource)
 }

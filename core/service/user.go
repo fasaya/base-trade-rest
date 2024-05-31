@@ -8,6 +8,7 @@ import (
 	"errors"
 
 	"github.com/google/uuid"
+	"github.com/jinzhu/copier"
 )
 
 type UserService struct {
@@ -15,7 +16,7 @@ type UserService struct {
 }
 
 type IUserService interface {
-	CreateUser(*model.User) (*model.User, error)
+	CreateUser(*request.AuthRegisterRequest) (*model.User, error)
 	GetListUser() ([]model.User, error)
 	GetDetailUser(int) (*model.User, error)
 	UpdateUser(*model.User) (*model.User, error)
@@ -29,7 +30,12 @@ func NewUserService(userRepo repository.IUserRepository) *UserService {
 	return &userService
 }
 
-func (s *UserService) CreateUser(user *model.User) (*model.User, error) {
+func (s *UserService) CreateUser(request *request.AuthRegisterRequest) (*model.User, error) {
+
+	// Transform
+	var user model.User
+	copier.Copy(&user, &request)
+
 	// Check if user already exist
 	_, err := s.userRepo.GetUserByKey("email", user.Email)
 	if err == nil {
@@ -40,7 +46,7 @@ func (s *UserService) CreateUser(user *model.User) (*model.User, error) {
 	user.UUID = uuid.New().String()
 
 	// Create user
-	result, err := s.userRepo.CreateUser(user)
+	result, err := s.userRepo.CreateUser(&user)
 	if err != nil {
 		return nil, err
 	}

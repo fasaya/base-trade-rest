@@ -1,9 +1,13 @@
 package helpers
 
+import (
+	"github.com/gin-gonic/gin"
+)
+
 type Response struct {
 	Message    string              `json:"message"`
 	Error      bool                `json:"error"`
-	StatusCode uint                `json:"status_code"`
+	StatusCode int                 `json:"status_code"`
 	Data       any                 `json:"data,omitempty"`
 	Meta       *PaginationResponse `json:"meta,omitempty"`
 }
@@ -20,25 +24,29 @@ type PaginationResponse struct {
 	Total    int64 `json:"total"`
 }
 
-func CreateFailResponse(msg string, statusCode uint) Response {
-	return Response{
+func CreateFailedResponse(ctx *gin.Context, statusCode int, msg string) {
+	var res = Response{
 		Error:      true,
 		Message:    msg,
 		Data:       nil,
 		StatusCode: statusCode,
 	}
+
+	ctx.AbortWithStatusJSON(statusCode, res)
 }
 
-func CreateSuccessResponse(msg string, statusCode uint, data any) Response {
-	return Response{
+func CreateSuccessfulResponse(ctx *gin.Context, statusCode int, msg string, data any) {
+	var res = Response{
 		Error:      false,
 		Message:    msg,
 		Data:       data,
 		StatusCode: statusCode,
 	}
+
+	ctx.JSON(statusCode, res)
 }
 
-func CreatePaginatedResponse(msg string, statusCode uint, data any, pageMeta PaginationResponse) Response {
+func CreatePaginatedResponse(statusCode int, msg string, data any, pageMeta PaginationResponse) Response {
 	return Response{
 		Error:   false,
 		Message: msg,
