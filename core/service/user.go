@@ -45,6 +45,9 @@ func (s *UserService) CreateUser(request *request.AuthRegisterRequest) (*model.U
 	// Generate UUID
 	user.UUID = uuid.New().String()
 
+	// Hash Password
+	user.Password = helpers.HashPass(request.Password)
+
 	// Create user
 	result, err := s.userRepo.CreateUser(&user)
 	if err != nil {
