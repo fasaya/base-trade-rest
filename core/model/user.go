@@ -15,3 +15,8 @@ type User struct {
 
 	Products []Product `gorm:"constraint:OnUpdate:CASCADE,OnDelete:RESTRICT;" json:"products,omitempty"`
 }
+
+// Override the table name
+func (User) TableName() string {
+	return "admins"
+}
