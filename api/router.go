@@ -12,12 +12,12 @@ import (
 func SetupRouter() *gin.Engine {
 	db := database.GetDB()
 
-	router := gin.Default()
-
 	// Register Handler
 	userRepo := repository.NewUserRepository(db)
 	userService := service.NewUserService(userRepo)
 	authHandler := handler.NewAuthHandler(userService)
+
+	router := gin.Default()
 
 	user := router.Group("auth")
 	{
