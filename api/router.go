@@ -32,7 +32,7 @@ func SetupRouter() *gin.Engine {
 
 	productRouter := router.Group("/products")
 	{
-		// productRouter.GET("/", productHandler.Index)
+		productRouter.GET("/", productHandler.Index)
 		// productRouter.PUT("/:uuid", productHandler.Show)
 
 		productRouter.Use(middleware.Authentication())

@@ -8,7 +8,6 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	jwt5 "github.com/golang-jwt/jwt/v5"
 )
 
 type ProductHandler struct {
@@ -21,13 +20,17 @@ func NewProductHandler(productService service.IProductService) *ProductHandler {
 }
 
 func (h *ProductHandler) Index(ctx *gin.Context) {
+	products, err := h.ProductService.GetListProduct()
 
+	if err != nil {
+		helpers.CreateFailedResponse(ctx, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	helpers.CreateSuccessfulResponse(ctx, http.StatusOK, "Products successfully fetched", products)
 }
 
 func (h *ProductHandler) Store(ctx *gin.Context) {
-	userData := ctx.MustGet("userData").(jwt5.MapClaims)
-	userID := uint(userData["id"].(float64))
-
 	var request request.ProductCreateRequest
 
 	err := ctx.ShouldBind(&request)
@@ -45,10 +48,13 @@ func (h *ProductHandler) Store(ctx *gin.Context) {
 	// 	return
 	// }
 
+	// Get authenticated user
+	userData := helpers.GetAuthUser(ctx)
+
 	product := model.Product{
 		Name:     request.Name,
 		ImageURL: nil,
-		UserID:   userID,
+		UserID:   userData.ID,
 	}
 
 	newUser, err := h.ProductService.CreateProduct(&product)
