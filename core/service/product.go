@@ -6,7 +6,6 @@ import (
 	"base-trade-rest/core/repository"
 
 	"github.com/google/uuid"
-	"github.com/jinzhu/copier"
 )
 
 type ProductService struct {
@@ -14,30 +13,25 @@ type ProductService struct {
 }
 
 type IProductService interface {
-	CreateProduct(*request.ProductCreateRequest) (*model.Product, error)
+	CreateProduct(*model.Product) (*model.Product, error)
 	GetListProduct() ([]model.Product, error)
 	GetDetailProduct(int) (*model.Product, error)
 	UpdateProduct(*model.Product) (*model.Product, error)
 	DeleteProduct(int) error
+	GetProductByOwner(uint, uint) (*model.Product, error)
 }
 
 func NewProductService(productRepo repository.IProductRepository) *ProductService {
-	var productService = ProductService{}
-	productService.productRepo = productRepo
+	var productService = ProductService{productRepo: productRepo}
 	return &productService
 }
 
-func (s *ProductService) CreateProduct(request *request.ProductCreateRequest) (*model.Product, error) {
-
-	// Transform
-	var product model.Product
-	copier.Copy(&product, &request)
-
+func (s *ProductService) CreateProduct(product *model.Product) (*model.Product, error) {
 	// Generate UUID
 	product.UUID = uuid.New().String()
 
 	// Create product
-	result, err := s.productRepo.CreateProduct(&product)
+	result, err := s.productRepo.CreateProduct(product)
 	if err != nil {
 		return nil, err
 	}
@@ -75,4 +69,17 @@ func (s *ProductService) DeleteProduct(id int) error {
 		return err
 	}
 	return nil
+}
+
+func (s *ProductService) GetProductByOwner(creatorID uint, productUUID uint) (*model.Product, error) {
+	var find = []request.FieldValueRequest{
+		{Field: "uuid", Value: productUUID},
+		{Field: "user_id", Value: creatorID},
+	}
+
+	result, err := s.productRepo.GetProductByMultipleKey(find)
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
 }

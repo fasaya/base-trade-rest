@@ -2,6 +2,7 @@ package api
 
 import (
 	"base-trade-rest/api/handler"
+	"base-trade-rest/api/middleware"
 	"base-trade-rest/core/repository"
 	"base-trade-rest/core/service"
 	"base-trade-rest/database"
@@ -12,17 +13,33 @@ import (
 func SetupRouter() *gin.Engine {
 	db := database.GetDB()
 
-	// Register Handler
+	// Register
 	userRepo := repository.NewUserRepository(db)
 	userService := service.NewUserService(userRepo)
 	authHandler := handler.NewAuthHandler(userService)
+
+	productRepo := repository.NewProductRepository(db)
+	productService := service.NewProductService(productRepo)
+	productHandler := handler.NewProductHandler(productService)
 
 	router := gin.Default()
 
 	user := router.Group("auth")
 	{
-		user.POST("/register", authHandler.UserRegister)
-		user.POST("/login", authHandler.UserLogin)
+		user.POST("/register", authHandler.Register)
+		user.POST("/login", authHandler.Login)
+	}
+
+	productRouter := router.Group("/products")
+	{
+		// productRouter.GET("/", productHandler.Index)
+		// productRouter.PUT("/:uuid", productHandler.Show)
+
+		productRouter.Use(middleware.Authentication())
+		productRouter.POST("/", productHandler.Store)
+
+		// productRouter.PUT("/:uuid", middleware.ProductAuthorization(), productHandler.Update)
+		// productRouter.DELETE("/:uuid", middleware.ProductAuthorization(), productHandler.Delete)
 	}
 
 	return router

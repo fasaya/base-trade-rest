@@ -20,7 +20,7 @@ func NewAuthHandler(userService service.IUserService) *AuthHandler {
 	return &authHandler
 }
 
-func (h *AuthHandler) UserRegister(ctx *gin.Context) {
+func (h *AuthHandler) Register(ctx *gin.Context) {
 	var user request.AuthRegisterRequest
 
 	err := ctx.ShouldBind(&user)
@@ -42,7 +42,7 @@ func (h *AuthHandler) UserRegister(ctx *gin.Context) {
 	helpers.CreateSuccessfulResponse(ctx, http.StatusOK, "Registered successfully", authResource)
 }
 
-func (h *AuthHandler) UserLogin(ctx *gin.Context) {
+func (h *AuthHandler) Login(ctx *gin.Context) {
 	var request request.AuthLoginRequest
 
 	err := ctx.ShouldBind(&request)

@@ -2,6 +2,7 @@ package helpers
 
 import (
 	"errors"
+	"fmt"
 	"strings"
 	"time"
 
@@ -31,7 +32,7 @@ func GenerateToken(id uint, email string) string {
 func VerifyToken(ctx *gin.Context) (interface{}, error) {
 	headerToken := ctx.Request.Header.Get("Authorization")
 	bearer := strings.HasPrefix(headerToken, "Bearer")
-
+	fmt.Println("headerToken", headerToken)
 	if !bearer {
 		return nil, errors.New("Sign in to proceed")
 	}

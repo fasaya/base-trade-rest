@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"base-trade-rest/api/request"
 	"base-trade-rest/core/model"
 
 	"gorm.io/gorm"
@@ -16,6 +17,8 @@ type IProductRepository interface {
 	GetAllProduct() ([]model.Product, error)
 	UpdateProduct(*model.Product) (*model.Product, error)
 	DeleteProduct(int) error
+	GetProductByKey(string, interface{}) (*model.Product, error)
+	GetProductByMultipleKey([]request.FieldValueRequest) (*model.Product, error)
 }
 
 func NewProductRepository(db *gorm.DB) *ProductRepository {
@@ -67,4 +70,28 @@ func (r *ProductRepository) DeleteProduct(id int) error {
 	}
 
 	return nil
+}
+
+func (r *ProductRepository) GetProductByKey(field string, value interface{}) (*model.Product, error) {
+	var product model.Product
+	err := r.db.Where(field+" = ?", value).First(&product).Error
+	if err != nil {
+		return nil, err
+	}
+	return &product, nil
+}
+
+func (r *ProductRepository) GetProductByMultipleKey(req []request.FieldValueRequest) (*model.Product, error) {
+	var product model.Product
+
+	query := r.db
+	for _, v := range req {
+		query = query.Where(v.Field+" = ?", v.Value)
+	}
+
+	err := query.First(&product).Error
+	if err != nil {
+		return nil, err
+	}
+	return &product, nil
 }
