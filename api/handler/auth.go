@@ -7,6 +7,7 @@ import (
 	"base-trade-rest/core/service"
 	"net/http"
 
+	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/copier"
 )
@@ -16,20 +17,28 @@ type AuthHandler struct {
 }
 
 func NewAuthHandler(userService service.IUserService) *AuthHandler {
-	var authHandler = AuthHandler{userService: userService}
+	var authHandler = AuthHandler{
+		userService: userService,
+	}
 	return &authHandler
 }
 
 func (h *AuthHandler) Register(ctx *gin.Context) {
-	var user request.AuthRegisterRequest
+	var request request.AuthRegisterRequest
 
-	err := ctx.ShouldBind(&user)
+	err := ctx.ShouldBind(&request)
 	if err != nil {
 		helpers.CreateFailedResponse(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	newUser, err := h.userService.CreateUser(&user)
+	_, err = govalidator.ValidateStruct(request)
+	if err != nil {
+		helpers.CreateValidationErrorResponse(ctx, http.StatusForbidden, err)
+		return
+	}
+
+	newUser, err := h.userService.CreateUser(&request)
 	if err != nil {
 		helpers.CreateFailedResponse(ctx, http.StatusBadRequest, err.Error())
 		return
@@ -48,6 +57,12 @@ func (h *AuthHandler) Login(ctx *gin.Context) {
 	err := ctx.ShouldBind(&request)
 	if err != nil {
 		helpers.CreateFailedResponse(ctx, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	_, err = govalidator.ValidateStruct(request)
+	if err != nil {
+		helpers.CreateValidationErrorResponse(ctx, http.StatusForbidden, err)
 		return
 	}
 

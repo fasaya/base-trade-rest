@@ -1,6 +1,7 @@
 package helpers
 
 import (
+	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 )
 
@@ -29,6 +30,17 @@ func CreateFailedResponse(ctx *gin.Context, statusCode int, msg string) {
 		Error:      true,
 		Message:    msg,
 		Data:       nil,
+		StatusCode: statusCode,
+	}
+
+	ctx.AbortWithStatusJSON(statusCode, res)
+}
+
+func CreateValidationErrorResponse(ctx *gin.Context, statusCode int, err error) {
+	var res = Response{
+		Error:      true,
+		Message:    "Form validation error",
+		Data:       govalidator.ErrorsByField(err),
 		StatusCode: statusCode,
 	}
 
