@@ -46,13 +46,17 @@ func (h *ProductHandler) Store(ctx *gin.Context) {
 		return
 	}
 
-	// Extract the filename without extension
-	// fileName := helpers.RemoveExtension(request.Image.Filename)
+	// if request.Image.Size == 0 || request.Image.Filename == "" {
+	// 	fmt.Println("request.Image.Filename", request.Image.Filename)
 
-	// uploadResult, err := helpers.UploadFile(request.Image, fileName)
-	// if err != nil {
-	// 	ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-	// 	return
+	// 	Extract the filename without extension
+	// 	fileName := helpers.RemoveExtension(request.Image.Filename)
+
+	// 	uploadResult, err := helpers.UploadFile(request.Image, fileName)
+	// 	if err != nil {
+	// 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	// 		return
+	// 	}
 	// }
 
 	// Get authenticated user
