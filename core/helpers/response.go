@@ -1,6 +1,8 @@
 package helpers
 
 import (
+	"net/http"
+
 	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 )
@@ -36,15 +38,15 @@ func CreateFailedResponse(ctx *gin.Context, statusCode int, msg string) {
 	ctx.AbortWithStatusJSON(statusCode, res)
 }
 
-func CreateValidationErrorResponse(ctx *gin.Context, statusCode int, err error) {
+func CreateValidationErrorResponse(ctx *gin.Context, err error) {
 	var res = Response{
 		Error:      true,
 		Message:    "Form validation error",
 		Data:       govalidator.ErrorsByField(err),
-		StatusCode: statusCode,
+		StatusCode: http.StatusForbidden,
 	}
 
-	ctx.AbortWithStatusJSON(statusCode, res)
+	ctx.AbortWithStatusJSON(http.StatusForbidden, res)
 }
 
 func CreateSuccessfulResponse(ctx *gin.Context, statusCode int, msg string, data any) {

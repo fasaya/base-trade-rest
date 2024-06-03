@@ -34,7 +34,7 @@ func (h *AuthHandler) Register(ctx *gin.Context) {
 
 	_, err = govalidator.ValidateStruct(request)
 	if err != nil {
-		helpers.CreateValidationErrorResponse(ctx, http.StatusForbidden, err)
+		helpers.CreateValidationErrorResponse(ctx, err)
 		return
 	}
 
@@ -62,7 +62,7 @@ func (h *AuthHandler) Login(ctx *gin.Context) {
 
 	_, err = govalidator.ValidateStruct(request)
 	if err != nil {
-		helpers.CreateValidationErrorResponse(ctx, http.StatusForbidden, err)
+		helpers.CreateValidationErrorResponse(ctx, err)
 		return
 	}
 

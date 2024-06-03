@@ -7,6 +7,7 @@ import (
 	"base-trade-rest/core/service"
 	"net/http"
 
+	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 )
 
@@ -36,6 +37,12 @@ func (h *ProductHandler) Store(ctx *gin.Context) {
 	err := ctx.ShouldBind(&request)
 	if err != nil {
 		helpers.CreateFailedResponse(ctx, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	_, err = govalidator.ValidateStruct(request)
+	if err != nil {
+		helpers.CreateValidationErrorResponse(ctx, err)
 		return
 	}
 
