@@ -7,16 +7,20 @@ import (
 	"base-trade-rest/core/service"
 	"net/http"
 
-	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 )
 
 type ProductHandler struct {
 	ProductService service.IProductService
+	Validate       *validator.Validate
 }
 
 func NewProductHandler(productService service.IProductService) *ProductHandler {
-	var productHandler = ProductHandler{ProductService: productService}
+	var productHandler = ProductHandler{
+		ProductService: productService,
+		Validate:       helpers.Validate,
+	}
 	return &productHandler
 }
 
@@ -40,9 +44,9 @@ func (h *ProductHandler) Store(ctx *gin.Context) {
 		return
 	}
 
-	_, err = govalidator.ValidateStruct(request)
+	err = h.Validate.Struct(request)
 	if err != nil {
-		helpers.CreateValidationErrorResponse(ctx, err)
+		helpers.HandleValidationError(ctx, err, &helpers.Translator)
 		return
 	}
 

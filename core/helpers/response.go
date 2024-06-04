@@ -3,7 +3,6 @@ package helpers
 import (
 	"net/http"
 
-	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 )
 
@@ -11,6 +10,7 @@ type Response struct {
 	Message    string              `json:"message"`
 	Error      bool                `json:"error"`
 	StatusCode int                 `json:"status_code"`
+	Errors     interface{}         `json:"errors,omitempty"`
 	Data       any                 `json:"data,omitempty"`
 	Meta       *PaginationResponse `json:"meta,omitempty"`
 }
@@ -38,11 +38,11 @@ func CreateFailedResponse(ctx *gin.Context, statusCode int, msg string) {
 	ctx.AbortWithStatusJSON(statusCode, res)
 }
 
-func CreateValidationErrorResponse(ctx *gin.Context, err error) {
+func CreateValidationErrorResponse(ctx *gin.Context, err interface{}) {
 	var res = Response{
 		Error:      true,
 		Message:    "Form validation error",
-		Data:       govalidator.ErrorsByField(err),
+		Errors:     err,
 		StatusCode: http.StatusForbidden,
 	}
 
