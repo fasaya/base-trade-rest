@@ -7,18 +7,20 @@ import (
 	"base-trade-rest/core/service"
 	"net/http"
 
-	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 	"github.com/jinzhu/copier"
 )
 
 type AuthHandler struct {
 	userService service.IUserService
+	Validate    *validator.Validate
 }
 
 func NewAuthHandler(userService service.IUserService) *AuthHandler {
 	var authHandler = AuthHandler{
 		userService: userService,
+		Validate:    helpers.Validate,
 	}
 	return &authHandler
 }
@@ -32,9 +34,9 @@ func (h *AuthHandler) Register(ctx *gin.Context) {
 		return
 	}
 
-	_, err = govalidator.ValidateStruct(request)
+	err = h.Validate.Struct(request)
 	if err != nil {
-		helpers.CreateValidationErrorResponse(ctx, err)
+		helpers.HandleValidationError(ctx, err, &helpers.Translator)
 		return
 	}
 
@@ -60,9 +62,9 @@ func (h *AuthHandler) Login(ctx *gin.Context) {
 		return
 	}
 
-	_, err = govalidator.ValidateStruct(request)
+	err = h.Validate.Struct(request)
 	if err != nil {
-		helpers.CreateValidationErrorResponse(ctx, err)
+		helpers.HandleValidationError(ctx, err, &helpers.Translator)
 		return
 	}
 

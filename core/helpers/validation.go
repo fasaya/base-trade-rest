@@ -21,7 +21,6 @@ var (
 )
 
 func init() {
-
 	fmt.Println("Initializing Translator...")
 
 	enTranslator := en.New()

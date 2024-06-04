@@ -1,12 +1,12 @@
 package request
 
 type AuthLoginRequest struct {
-	Email    string `json:"email" form:"email" valid:"required,email"`
-	Password string `json:"password" form:"password" valid:"required"`
+	Email    string `json:"email" form:"email" validate:"required,email"`
+	Password string `json:"password" form:"password" validate:"required"`
 }
 
 type AuthRegisterRequest struct {
-	Name     string `json:"name" form:"name" valid:"required"`
-	Email    string `json:"email" form:"email" valid:"required,email"`
-	Password string `json:"password" form:"password" valid:"required"`
+	Name     string `json:"name" form:"name" validate:"required"`
+	Email    string `json:"email" form:"email" validate:"required,email"`
+	Password string `json:"password" form:"password" validate:"required"`
 }
