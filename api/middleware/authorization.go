@@ -14,7 +14,7 @@ import (
 func ProductAuthorization() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		db := database.GetDB()
-		productUUID := ctx.Param("uuid")
+		productUUID := ctx.Param("productUUID")
 
 		userData := ctx.MustGet("userData").(jwt5.MapClaims)
 		userID := uint(userData["id"].(float64))
@@ -26,14 +26,9 @@ func ProductAuthorization() gin.HandlerFunc {
 
 		productRepository := repository.NewProductRepository(db)
 
-		product, err := productRepository.GetProductByMultipleKey(findProduct)
+		_, err := productRepository.GetProductByMultipleKey(findProduct)
 		if err != nil {
-			helpers.CreateFailedResponse(ctx, http.StatusNotFound, "Data Not Found")
-			return
-		}
-
-		if product.UserID != userID {
-			helpers.CreateFailedResponse(ctx, http.StatusUnauthorized, "You are not allowed to access this data")
+			helpers.CreateFailedResponse(ctx, http.StatusUnauthorized, "Data not exist or you're not authorized")
 			return
 		}
 

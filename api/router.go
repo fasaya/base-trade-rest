@@ -33,13 +33,13 @@ func SetupRouter() *gin.Engine {
 	productRouter := router.Group("/products")
 	{
 		productRouter.GET("/", productHandler.Index)
-		// productRouter.PUT("/:uuid", productHandler.Show)
+		productRouter.GET("/:productUUID", productHandler.Show)
 
 		productRouter.Use(middleware.Authentication())
 		productRouter.POST("/", productHandler.Store)
 
-		// productRouter.PUT("/:uuid", middleware.ProductAuthorization(), productHandler.Update)
-		// productRouter.DELETE("/:uuid", middleware.ProductAuthorization(), productHandler.Delete)
+		// productRouter.PUT("/:productUUID", middleware.ProductAuthorization(), productHandler.Update)
+		productRouter.DELETE("/:productUUID", middleware.ProductAuthorization(), productHandler.Delete)
 	}
 
 	return router

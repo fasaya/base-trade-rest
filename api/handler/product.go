@@ -58,14 +58,9 @@ func (h *ProductHandler) Store(ctx *gin.Context) {
 			return
 		}
 
-		// Extract the filename without extension
+		// Upload Image
 		// fileName := helpers.RemoveExtension(request.Image.Filename)
-
-		// uploadResult, err := helpers.UploadFile(request.Image, fileName)
-		// if err != nil {
-		// 	ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		// 	return
-		// }
+		// ...
 	}
 
 	// Get authenticated user
@@ -87,13 +82,31 @@ func (h *ProductHandler) Store(ctx *gin.Context) {
 }
 
 func (h *ProductHandler) Show(ctx *gin.Context) {
+	productUUID := ctx.Param("productUUID")
 
+	product, err := h.ProductService.GetDetailProductByUUID(productUUID)
+	if err != nil {
+		helpers.CreateFailedResponse(ctx, http.StatusBadRequest, "Data not found")
+		return
+	}
+
+	helpers.CreateSuccessfulResponse(ctx, http.StatusOK, "Product successfully fetched", product)
 }
 
 func (h *ProductHandler) Update(ctx *gin.Context) {
-
+	//
 }
 
 func (h *ProductHandler) Delete(ctx *gin.Context) {
+	productUUID := ctx.Param("productUUID")
+
+	// Delete product
+	err := h.ProductService.DeleteProductByUUID(productUUID)
+	if err != nil {
+		helpers.CreateFailedResponse(ctx, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	helpers.CreateSuccessfulResponse(ctx, http.StatusOK, "Product successfully deleted", nil)
 
 }

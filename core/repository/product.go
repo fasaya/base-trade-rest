@@ -13,10 +13,10 @@ type ProductRepository struct {
 
 type IProductRepository interface {
 	CreateProduct(*model.Product) (*model.Product, error)
-	GetDetailProduct(int) (*model.Product, error)
+	GetDetailProduct(uint) (*model.Product, error)
 	GetAllProduct() ([]model.Product, error)
 	UpdateProduct(*model.Product) (*model.Product, error)
-	DeleteProduct(int) error
+	DeleteProduct(uint) error
 	GetProductByKey(string, interface{}) (*model.Product, error)
 	GetProductByMultipleKey([]request.FieldValueRequest) (*model.Product, error)
 }
@@ -35,7 +35,7 @@ func (r *ProductRepository) CreateProduct(product *model.Product) (*model.Produc
 	return product, nil
 }
 
-func (r *ProductRepository) GetDetailProduct(id int) (*model.Product, error) {
+func (r *ProductRepository) GetDetailProduct(id uint) (*model.Product, error) {
 	var product model.Product
 	err := r.db.First(&product, id).Error
 	if err != nil {
@@ -62,7 +62,7 @@ func (r *ProductRepository) UpdateProduct(product *model.Product) (*model.Produc
 	return product, nil
 }
 
-func (r *ProductRepository) DeleteProduct(id int) error {
+func (r *ProductRepository) DeleteProduct(id uint) error {
 	var product model.Product
 	err := r.db.Where("id = ?", id).Delete(&product).Error
 	if err != nil {
