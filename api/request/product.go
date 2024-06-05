@@ -8,6 +8,6 @@ type ProductCreateRequest struct {
 }
 
 type ProductUpdateRequest struct {
-	Name  *string               `json:"name" form:"name"`
+	Name  string                `json:"name" form:"name"`
 	Image *multipart.FileHeader `json:"image" form:"image"`
 }

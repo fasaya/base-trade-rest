@@ -94,7 +94,32 @@ func (h *ProductHandler) Show(ctx *gin.Context) {
 }
 
 func (h *ProductHandler) Update(ctx *gin.Context) {
-	//
+	productUUID := ctx.Param("productUUID")
+	var request request.ProductUpdateRequest
+
+	err := ctx.ShouldBind(&request)
+	if err != nil {
+		helpers.CreateFailedResponse(ctx, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	product, err := h.ProductService.GetDetailProductByUUID(productUUID)
+	if err != nil {
+		helpers.CreateFailedResponse(ctx, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	if request.Name != "" {
+		product.Name = request.Name
+	}
+
+	updatedProduct, err := h.ProductService.UpdateProduct(product)
+	if err != nil {
+		helpers.CreateFailedResponse(ctx, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	helpers.CreateSuccessfulResponse(ctx, http.StatusOK, "Product successfully updated", updatedProduct)
 }
 
 func (h *ProductHandler) Delete(ctx *gin.Context) {
@@ -108,5 +133,11 @@ func (h *ProductHandler) Delete(ctx *gin.Context) {
 	}
 
 	helpers.CreateSuccessfulResponse(ctx, http.StatusOK, "Product successfully deleted", nil)
+}
 
+func Ternary(statement bool, a, b interface{}) interface{} {
+	if statement {
+		return a
+	}
+	return b
 }

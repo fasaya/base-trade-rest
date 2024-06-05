@@ -38,7 +38,7 @@ func SetupRouter() *gin.Engine {
 		productRouter.Use(middleware.Authentication())
 		productRouter.POST("/", productHandler.Store)
 
-		// productRouter.PUT("/:productUUID", middleware.ProductAuthorization(), productHandler.Update)
+		productRouter.PUT("/:productUUID", middleware.ProductAuthorization(), productHandler.Update)
 		productRouter.DELETE("/:productUUID", middleware.ProductAuthorization(), productHandler.Delete)
 	}
 
