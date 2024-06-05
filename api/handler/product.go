@@ -134,10 +134,3 @@ func (h *ProductHandler) Delete(ctx *gin.Context) {
 
 	helpers.CreateSuccessfulResponse(ctx, http.StatusOK, "Product successfully deleted", nil)
 }
-
-func Ternary(statement bool, a, b interface{}) interface{} {
-	if statement {
-		return a
-	}
-	return b
-}
