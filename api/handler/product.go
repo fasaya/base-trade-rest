@@ -50,18 +50,24 @@ func (h *ProductHandler) Store(ctx *gin.Context) {
 		return
 	}
 
-	// if request.Image.Size == 0 || request.Image.Filename == "" {
-	// 	fmt.Println("request.Image.Filename", request.Image.Filename)
+	if request.Image.Size != 0 || request.Image.Filename != "" {
 
-	// 	Extract the filename without extension
-	// 	fileName := helpers.RemoveExtension(request.Image.Filename)
+		// TO DO: Need to fix, it still doesn't work
+		err = helpers.ValidateImage(h.Validate, request.Image)
+		if err != nil {
+			helpers.CreateFailedResponse(ctx, http.StatusBadRequest, err.Error())
+			return
+		}
 
-	// 	uploadResult, err := helpers.UploadFile(request.Image, fileName)
-	// 	if err != nil {
-	// 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-	// 		return
-	// 	}
-	// }
+		// Extract the filename without extension
+		// fileName := helpers.RemoveExtension(request.Image.Filename)
+
+		// uploadResult, err := helpers.UploadFile(request.Image, fileName)
+		// if err != nil {
+		// 	ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		// 	return
+		// }
+	}
 
 	// Get authenticated user
 	userData := helpers.GetAuthUser(ctx)
