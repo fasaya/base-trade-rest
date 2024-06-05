@@ -1,8 +1,12 @@
 package helpers
 
 import (
+	"errors"
 	"fmt"
 	"mime/multipart"
+
+	"golang.org/x/exp/slices"
+
 	"strconv"
 	"strings"
 
@@ -18,8 +22,9 @@ import (
 // var Translator ut.Translator
 
 var (
-	Validate   *validator.Validate
-	Translator ut.Translator
+	Validate     *validator.Validate
+	Translator   ut.Translator
+	maxImageSize = 2 // In MB
 )
 
 func init() {
@@ -92,6 +97,22 @@ func ValidateImage(v *validator.Validate, fileHeader *multipart.FileHeader) erro
 	if err := v.Var(fileHeader, "maxImageSizeInMb=5"); err != nil {
 		return fmt.Errorf("image size cannot exceed 2MB")
 	}
+	return nil
+}
+
+func ValidateImageUpload(file *multipart.FileHeader) error {
+	// Validating if the current field's value contains the path to a valid image file
+	allowedExtensions := []string{"jpg", "jpeg", "png"}
+	ext := strings.ToLower(file.Filename[strings.LastIndex(file.Filename, ".")+1:])
+	if !slices.Contains(allowedExtensions, ext) {
+		return errors.New("file format must be JPG, JPEG or PNG")
+	}
+
+	// Validating the maximum size of an image
+	if file.Size <= int64(maxImageSize) {
+		return errors.New("image size cannot exceed 5MB")
+	}
+
 	return nil
 }
 

@@ -51,11 +51,10 @@ func (h *ProductHandler) Store(ctx *gin.Context) {
 	}
 
 	if request.Image.Size != 0 || request.Image.Filename != "" {
-
-		// TO DO: Need to fix, it still doesn't work
-		err = helpers.ValidateImage(h.Validate, request.Image)
+		// err = helpers.ValidateImage(h.Validate, request.Image) // TO DO: Need to fix, it still doesn't work
+		err = helpers.ValidateImageUpload(request.Image)
 		if err != nil {
-			helpers.CreateFailedResponse(ctx, http.StatusBadRequest, err.Error())
+			helpers.CreateValidationErrorResponse(ctx, gin.H{"image": err.Error()})
 			return
 		}
 
