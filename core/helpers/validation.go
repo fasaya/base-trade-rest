@@ -89,6 +89,7 @@ func HandleValidationError(ctx *gin.Context, err error, trans *ut.Translator) {
 	CreateValidationErrorResponse(ctx, getValidationErrors(err, trans))
 }
 
+// TO DO: Need to fix, it still doesn't work
 func ValidateImage(v *validator.Validate, fileHeader *multipart.FileHeader) error {
 	if err := v.Var(fileHeader, "commonImageType"); err != nil {
 		return fmt.Errorf("file format must be JPG or JPEG")

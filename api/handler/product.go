@@ -3,6 +3,7 @@ package handler
 import (
 	"base-trade-rest/api/request"
 	"base-trade-rest/core/helpers"
+	cloudinaryHelper "base-trade-rest/core/helpers/cloudinary"
 	"base-trade-rest/core/model"
 	"base-trade-rest/core/service"
 	"net/http"
@@ -50,17 +51,22 @@ func (h *ProductHandler) Store(ctx *gin.Context) {
 		return
 	}
 
-	if request.Image.Size != 0 || request.Image.Filename != "" {
-		// err = helpers.ValidateImage(h.Validate, request.Image) // TO DO: Need to fix, it still doesn't work
-		err = helpers.ValidateImageUpload(request.Image)
-		if err != nil {
-			helpers.CreateValidationErrorResponse(ctx, gin.H{"image": err.Error()})
-			return
-		}
+	var uploadFileName string
+	if request.Image != nil {
+		if request.Image.Size != 0 || request.Image.Filename != "" {
+			err = helpers.ValidateImageUpload(request.Image)
+			if err != nil {
+				helpers.CreateValidationErrorResponse(ctx, gin.H{"image": err.Error()})
+				return
+			}
 
-		// Upload Image
-		// fileName := helpers.RemoveExtension(request.Image.Filename)
-		// ...
+			// Upload Image
+			uploadFileName, err = cloudinaryHelper.UploadFile(request.Image)
+			if err != nil {
+				helpers.CreateFailedResponse(ctx, http.StatusBadRequest, err.Error())
+				return
+			}
+		}
 	}
 
 	// Get authenticated user
@@ -68,7 +74,7 @@ func (h *ProductHandler) Store(ctx *gin.Context) {
 
 	product := model.Product{
 		Name:     request.Name,
-		ImageURL: nil,
+		ImageURL: uploadFileName,
 		UserID:   userData.ID,
 	}
 
@@ -109,9 +115,26 @@ func (h *ProductHandler) Update(ctx *gin.Context) {
 		return
 	}
 
-	if request.Name != "" {
-		product.Name = request.Name
+	if request.Image != nil {
+		if request.Image.Size != 0 || request.Image.Filename != "" {
+			err = helpers.ValidateImageUpload(request.Image)
+			if err != nil {
+				helpers.CreateValidationErrorResponse(ctx, gin.H{"image": err.Error()})
+				return
+			}
+
+			// Upload Image
+			uploadFileName, err := cloudinaryHelper.UploadFile(request.Image)
+			if err != nil {
+				helpers.CreateFailedResponse(ctx, http.StatusBadRequest, err.Error())
+				return
+			}
+
+			product.ImageURL = uploadFileName
+		}
 	}
+
+	product.Name = request.Name
 
 	updatedProduct, err := h.ProductService.UpdateProduct(product)
 	if err != nil {

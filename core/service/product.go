@@ -4,7 +4,6 @@ import (
 	"base-trade-rest/api/request"
 	"base-trade-rest/core/model"
 	"base-trade-rest/core/repository"
-	"fmt"
 
 	"github.com/google/uuid"
 )
@@ -83,8 +82,6 @@ func (s *ProductService) GetProductByOwner(creatorID uint, productUUID string) (
 		{Field: "uuid", Value: productUUID},
 		{Field: "user_id", Value: creatorID},
 	}
-
-	fmt.Println("GetProductByOwner", creatorID, productUUID)
 
 	result, err := s.productRepo.GetProductByMultipleKey(find)
 	if err != nil {
