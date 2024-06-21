@@ -46,7 +46,7 @@ func (r *ProductRepository) GetDetailProduct(id uint) (*model.Product, error) {
 
 func (r *ProductRepository) GetAllProduct() ([]model.Product, error) {
 	var products []model.Product
-	err := r.db.Order("id desc").Find(&products).Error
+	err := r.db.Order("id desc").Preload("Variants").Find(&products).Error
 	if err != nil {
 		return nil, err
 	}

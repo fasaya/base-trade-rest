@@ -5,7 +5,7 @@ import (
 )
 
 type Variant struct {
-	ID        uint       `gorm:"primaryKey"`
+	ID        uint       `gorm:"primaryKey" json:"id"`
 	UUID      string     `gorm:"not null" json:"uuid"`
 	Name      string     `gorm:"not null"`
 	Quantity  int        `gorm:"not null"`
