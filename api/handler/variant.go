@@ -77,13 +77,62 @@ func (h VariantHandler) Store(ctx *gin.Context) {
 }
 
 func (h VariantHandler) Show(ctx *gin.Context) {
+	variantUUID := ctx.Param("variantUUID")
 
+	variant, err := h.VariantService.GetDetailVariantByUUID(variantUUID)
+	if err != nil {
+		helpers.CreateFailedResponse(ctx, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	helpers.CreateSuccessfulResponse(ctx, http.StatusOK, "Data successfully fetched", variant)
 }
 
 func (h VariantHandler) Update(ctx *gin.Context) {
+	variantUUID := ctx.Param("variantUUID")
+	var request request.VariantUpdateRequest
+
+	err := ctx.ShouldBind(&request)
+	if err != nil {
+		helpers.CreateFailedResponse(ctx, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	variant, err := h.VariantService.GetDetailVariantByUUID(variantUUID)
+	if err != nil {
+		helpers.CreateFailedResponse(ctx, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	// Check if product exists
+	product, err := h.ProductRepository.GetProductByKey("uuid", request.ProductID)
+	if err != nil {
+		helpers.CreateFailedResponse(ctx, http.StatusBadRequest, "Product not found")
+		return
+	}
+
+	variant.Name = request.Name
+	variant.Quantity = request.Quantity
+	variant.ProductID = product.ID
+
+	updatedVariant, err := h.VariantService.UpdateVariant(variant)
+	if err != nil {
+		helpers.CreateFailedResponse(ctx, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	helpers.CreateSuccessfulResponse(ctx, http.StatusOK, "Data successfully updated", updatedVariant)
 
 }
 
 func (h VariantHandler) Delete(ctx *gin.Context) {
+	variantUUID := ctx.Param("variantUUID")
 
+	err := h.VariantService.DeleteVariantByUUID(variantUUID)
+	if err != nil {
+		helpers.CreateFailedResponse(ctx, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	helpers.CreateSuccessfulResponse(ctx, http.StatusOK, "Data successfully deleted", nil)
 }

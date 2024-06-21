@@ -33,7 +33,7 @@ func (h *ProductHandler) Index(ctx *gin.Context) {
 		return
 	}
 
-	helpers.CreateSuccessfulResponse(ctx, http.StatusOK, "Products successfully fetched", products)
+	helpers.CreateSuccessfulResponse(ctx, http.StatusOK, "Data successfully fetched", products)
 }
 
 func (h *ProductHandler) Store(ctx *gin.Context) {
@@ -84,7 +84,7 @@ func (h *ProductHandler) Store(ctx *gin.Context) {
 		return
 	}
 
-	helpers.CreateSuccessfulResponse(ctx, http.StatusOK, "Product successfully created", newUser)
+	helpers.CreateSuccessfulResponse(ctx, http.StatusOK, "Data successfully created", newUser)
 }
 
 func (h *ProductHandler) Show(ctx *gin.Context) {
@@ -96,7 +96,7 @@ func (h *ProductHandler) Show(ctx *gin.Context) {
 		return
 	}
 
-	helpers.CreateSuccessfulResponse(ctx, http.StatusOK, "Product successfully fetched", product)
+	helpers.CreateSuccessfulResponse(ctx, http.StatusOK, "Data successfully fetched", product)
 }
 
 func (h *ProductHandler) Update(ctx *gin.Context) {
@@ -142,7 +142,7 @@ func (h *ProductHandler) Update(ctx *gin.Context) {
 		return
 	}
 
-	helpers.CreateSuccessfulResponse(ctx, http.StatusOK, "Product successfully updated", updatedProduct)
+	helpers.CreateSuccessfulResponse(ctx, http.StatusOK, "Data successfully updated", updatedProduct)
 }
 
 func (h *ProductHandler) Delete(ctx *gin.Context) {
@@ -155,5 +155,5 @@ func (h *ProductHandler) Delete(ctx *gin.Context) {
 		return
 	}
 
-	helpers.CreateSuccessfulResponse(ctx, http.StatusOK, "Product successfully deleted", nil)
+	helpers.CreateSuccessfulResponse(ctx, http.StatusOK, "Data successfully deleted", nil)
 }
