@@ -24,7 +24,7 @@ import (
 var (
 	Validate     *validator.Validate
 	Translator   ut.Translator
-	maxImageSize = 2 // In MB
+	maxImageSize = 5 // In MB
 )
 
 func init() {
@@ -103,7 +103,7 @@ func ValidateImage(v *validator.Validate, fileHeader *multipart.FileHeader) erro
 
 func ValidateImageUpload(file *multipart.FileHeader) error {
 	// Validating if the current field's value contains the path to a valid image file
-	allowedExtensions := []string{"jpg", "jpeg", "png"}
+	allowedExtensions := []string{"jpg", "jpeg", "png", "svg"}
 	ext := strings.ToLower(file.Filename[strings.LastIndex(file.Filename, ".")+1:])
 	if !slices.Contains(allowedExtensions, ext) {
 		return errors.New("file format must be JPG, JPEG or PNG")

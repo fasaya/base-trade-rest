@@ -13,7 +13,7 @@ import (
 func SetupRouter() *gin.Engine {
 	db := database.GetDB()
 
-	// Register
+	// Register repository, service, and handler
 	userRepo := repository.NewUserRepository(db)
 	userService := service.NewUserService(userRepo)
 	authHandler := handler.NewAuthHandler(userService)
@@ -22,12 +22,29 @@ func SetupRouter() *gin.Engine {
 	productService := service.NewProductService(productRepo)
 	productHandler := handler.NewProductHandler(productService)
 
+	variantRepo := repository.NewVariantRepository(db)
+	variantService := service.NewVariantService(variantRepo)
+	variantHandler := handler.NewVariantHandler(variantService)
+
+	// Setup router
 	router := gin.Default()
 
 	user := router.Group("auth")
 	{
 		user.POST("/register", authHandler.Register)
 		user.POST("/login", authHandler.Login)
+	}
+
+	variantRouter := router.Group("/products/variants")
+	{
+		variantRouter.GET("/", variantHandler.Index)
+		variantRouter.GET("/:variantUUID", variantHandler.Show)
+
+		variantRouter.Use(middleware.Authentication())
+		variantRouter.POST("/", variantHandler.Store)
+
+		variantRouter.PUT("/:variantUUID", middleware.VariantAuthorization(), variantHandler.Update)
+		variantRouter.DELETE("/:variantUUID", middleware.VariantAuthorization(), variantHandler.Delete)
 	}
 
 	productRouter := router.Group("/products")

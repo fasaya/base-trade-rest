@@ -35,3 +35,28 @@ func ProductAuthorization() gin.HandlerFunc {
 		ctx.Next()
 	}
 }
+
+func VariantAuthorization() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		db := database.GetDB()
+		productUUID := ctx.Param("productUUID")
+
+		userData := ctx.MustGet("userData").(jwt5.MapClaims)
+		userID := uint(userData["id"].(float64))
+
+		var findVariant = []request.FieldValueRequest{
+			{Field: "uuid", Value: productUUID},
+			{Field: "user_id", Value: userID},
+		}
+
+		variantRepository := repository.NewVariantRepository(db)
+
+		_, err := variantRepository.GetVariantByMultipleKey(findVariant)
+		if err != nil {
+			helpers.CreateFailedResponse(ctx, http.StatusUnauthorized, "Data not exist or you're not authorized")
+			return
+		}
+
+		ctx.Next()
+	}
+}
