@@ -43,10 +43,8 @@ func SetupRouter() *gin.Engine {
 		variantRouter.Use(middleware.Authentication())
 		variantRouter.POST("/", variantHandler.Store)
 
-		// variantRouter.PUT("/:variantUUID", middleware.VariantAuthorization(), variantHandler.Update)
-		// variantRouter.DELETE("/:variantUUID", middleware.VariantAuthorization(), variantHandler.Delete)
-		variantRouter.PUT("/:variantUUID", variantHandler.Update)
-		variantRouter.DELETE("/:variantUUID", variantHandler.Delete)
+		variantRouter.PUT("/:variantUUID", middleware.VariantAuthorization(), variantHandler.Update)
+		variantRouter.DELETE("/:variantUUID", middleware.VariantAuthorization(), variantHandler.Delete)
 	}
 
 	productRouter := router.Group("/products")

@@ -74,7 +74,7 @@ func (r *VariantRepository) DeleteVariant(id uint) error {
 
 func (r *VariantRepository) GetVariantByKey(field string, value interface{}) (*model.Variant, error) {
 	var variant model.Variant
-	err := r.db.Where(field+" = ?", value).First(&variant).Error
+	err := r.db.Preload("Product").Where(field+" = ?", value).First(&variant).Error
 	if err != nil {
 		return nil, err
 	}

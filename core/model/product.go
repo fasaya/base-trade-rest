@@ -13,5 +13,5 @@ type Product struct {
 	CreatedAt *time.Time `json:"created_at"`
 	UpdatedAt *time.Time `json:"update_at"`
 
-	Variants []Variant `gorm:"constraint:OnUpdate:CASCADE,OnDelete:RESTRICT;" json:"variants"`
+	Variants []Variant `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"variants,omitempty"`
 }

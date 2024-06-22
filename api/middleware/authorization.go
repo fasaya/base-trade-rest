@@ -1,14 +1,12 @@
 package middleware
 
 import (
-	"base-trade-rest/api/request"
 	"base-trade-rest/core/helpers"
 	"base-trade-rest/core/repository"
 	"base-trade-rest/database"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	jwt5 "github.com/golang-jwt/jwt/v5"
 )
 
 func ProductAuthorization() gin.HandlerFunc {
@@ -16,19 +14,19 @@ func ProductAuthorization() gin.HandlerFunc {
 		db := database.GetDB()
 		productUUID := ctx.Param("productUUID")
 
-		userData := ctx.MustGet("userData").(jwt5.MapClaims)
-		userID := uint(userData["id"].(float64))
-
-		var findProduct = []request.FieldValueRequest{
-			{Field: "uuid", Value: productUUID},
-			{Field: "user_id", Value: userID},
-		}
+		// Get authenticated user
+		userData := helpers.GetAuthUser(ctx)
 
 		productRepository := repository.NewProductRepository(db)
 
-		_, err := productRepository.GetProductByMultipleKey(findProduct)
+		product, err := productRepository.GetProductByKey("uuid", productUUID)
 		if err != nil {
-			helpers.CreateFailedResponse(ctx, http.StatusUnauthorized, "Data not exist or you're not authorized")
+			helpers.CreateFailedResponse(ctx, http.StatusUnauthorized, "Product not exist")
+			return
+		}
+
+		if product.UserID != userData.ID {
+			helpers.CreateFailedResponse(ctx, http.StatusUnauthorized, "Unauthorized")
 			return
 		}
 
@@ -36,41 +34,26 @@ func ProductAuthorization() gin.HandlerFunc {
 	}
 }
 
-// func VariantCreateAuthorization() gin.HandlerFunc {
-// 	return func(ctx *gin.Context) {
-// 		db := database.GetDB()
+func VariantAuthorization() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		db := database.GetDB()
+		variantUUID := ctx.Param("variantUUID")
 
-// 		ctx.Next()
-// 	}
-// }
+		// Get authenticated user
+		userData := helpers.GetAuthUser(ctx)
 
-// func VariantUpdateAuthorization() gin.HandlerFunc {
-// 	return func(ctx *gin.Context) {
-// 		db := database.GetDB()
-// 		variantUUID := ctx.Param("variantUUID")
+		variantRepository := repository.NewVariantRepository(db)
+		variant, err := variantRepository.GetVariantByKey("uuid", variantUUID)
+		if err != nil {
+			helpers.CreateFailedResponse(ctx, http.StatusUnauthorized, "Variant not exist")
+			return
+		}
 
-// 		userData := ctx.MustGet("userData").(jwt5.MapClaims)
-// 		userID := uint(userData["id"].(float64))
+		if variant.Product.UserID != userData.ID {
+			helpers.CreateFailedResponse(ctx, http.StatusUnauthorized, "Unauthorized")
+			return
+		}
 
-// 		variantRepository := repository.NewVariantRepository(db)
-// 		variant, err := variantRepository.GetVariantByKey("uuid", variantUUID)
-// 		if err != nil {
-// 			helpers.CreateFailedResponse(ctx, http.StatusUnauthorized, "Data not exist or you're not authorized")
-// 			return
-// 		}
-
-// 		var findProduct = []request.FieldValueRequest{
-// 			{Field: "id", Value: variant.ProductID},
-// 			{Field: "user_id", Value: userID},
-// 		}
-
-// 		productRepository := repository.NewProductRepository(db)
-// 		_, err = productRepository.GetProductByMultipleKey(findProduct)
-// 		if err != nil {
-// 			helpers.CreateFailedResponse(ctx, http.StatusUnauthorized, "Data not exist or you're not authorized")
-// 			return
-// 		}
-
-// 		ctx.Next()
-// 	}
-// }
+		ctx.Next()
+	}
+}

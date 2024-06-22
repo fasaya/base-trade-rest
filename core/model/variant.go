@@ -12,4 +12,6 @@ type Variant struct {
 	ProductID uint       `gorm:"not null"`
 	CreatedAt *time.Time `json:"created_at"`
 	UpdatedAt *time.Time `json:"update_at"`
+
+	Product Product `gorm:"foreignKey:ProductID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"product,omitempty"`
 }
