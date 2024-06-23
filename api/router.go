@@ -3,9 +3,11 @@ package api
 import (
 	"base-trade-rest/api/handler"
 	"base-trade-rest/api/middleware"
+	"base-trade-rest/core/helpers"
 	"base-trade-rest/core/repository"
 	"base-trade-rest/core/service"
 	"base-trade-rest/database"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -28,6 +30,10 @@ func SetupRouter() *gin.Engine {
 
 	// Setup router
 	router := gin.Default()
+
+	router.GET("/", func(ctx *gin.Context) {
+		helpers.CreateSuccessfulResponse(ctx, http.StatusOK, "How you doin'?", nil)
+	})
 
 	user := router.Group("auth")
 	{
