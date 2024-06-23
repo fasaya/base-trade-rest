@@ -106,7 +106,7 @@ func ValidateImageUpload(file *multipart.FileHeader) error {
 	allowedExtensions := []string{"jpg", "jpeg", "png", "svg"}
 	ext := strings.ToLower(file.Filename[strings.LastIndex(file.Filename, ".")+1:])
 	if !slices.Contains(allowedExtensions, ext) {
-		return errors.New("file format must be JPG, JPEG or PNG")
+		return errors.New("file format must be JPG, JPEG, PNG or SVG")
 	}
 
 	// Validating the maximum size of an image
