@@ -3,10 +3,8 @@ package database
 import (
 	"base-trade-rest/core/model"
 	"fmt"
-	"log"
 	"os"
 
-	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -19,10 +17,10 @@ var (
 func StartDB() {
 
 	// Load env
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal(err.Error())
-	}
+	// err := godotenv.Load()
+	// if err != nil {
+	// 	log.Fatal(err.Error())
+	// }
 
 	host := os.Getenv("DB_HOST")
 	user := os.Getenv("DB_USER")
