@@ -5,7 +5,7 @@ import (
 	"base-trade-rest/database"
 )
 
-var PORT = ":5050"
+var PORT = ":3000"
 
 func main() {
 	database.StartDB()
