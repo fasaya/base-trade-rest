@@ -1,0 +1,447 @@
+{
+	"info": {
+		"_postman_id": "df1d8f7b-a4e8-4d8c-99c8-b766854c781d",
+		"name": "Base Trade API - Fasaya",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15546504"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "ade@mail.com",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "ade",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{gfw_base_url}}/auth/register",
+							"host": ["{{gfw_base_url}}"],
+							"path": ["auth", "register"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    ",
+									"    pm.test(\"Token get\", function () {",
+									"        var jsonData = pm.response.json();",
+									"        pm.collectionVariables.set(\"gfw_bearer\", jsonData.data.token)",
+									"    });",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "ade@mail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{gfw_base_url}}/auth/login",
+							"host": ["{{gfw_base_url}}"],
+							"path": ["auth", "login"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Variants",
+					"item": [
+						{
+							"name": "Get All",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{gfw_base_url}}/products/variants?page=1&search=Rosegold",
+									"host": ["{{gfw_base_url}}"],
+									"path": ["products", "variants"],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "search",
+											"value": "Rosegold",
+											"description": "search by variant name"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get by UUID",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{gfw_base_url}}/products/variants/:uuid",
+									"host": ["{{gfw_base_url}}"],
+									"path": ["products", "variants", ":uuid"],
+									"variable": [
+										{
+											"key": "uuid",
+											"value": "a6478bd2-dbb0-49c9-b63c-40f92583e6dd",
+											"description": "uuid of variant"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "product_id",
+											"value": "7d9fdb3e-0545-4a3a-8acf-2a56b1f8e4bb",
+											"description": "uuid of product",
+											"type": "text"
+										},
+										{
+											"key": "name",
+											"value": "128GB Rosegold",
+											"type": "text"
+										},
+										{
+											"key": "quantity",
+											"value": "12",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{gfw_base_url}}/products/variants",
+									"host": ["{{gfw_base_url}}"],
+									"path": ["products", "variants"]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "Macbook Air M2 2022",
+											"description": "string",
+											"type": "text"
+										},
+										{
+											"key": "quantity",
+											"value": "99",
+											"description": "integer",
+											"type": "text"
+										},
+										{
+											"key": "product_id",
+											"value": "659ba7b5-c240-48c0-9d31-292b29f3575c",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{gfw_base_url}}/products/variants/:uuid",
+									"host": ["{{gfw_base_url}}"],
+									"path": ["products", "variants", ":uuid"],
+									"variable": [
+										{
+											"key": "uuid",
+											"value": "f8e508b8-84d8-4cac-bc22-c0b09c58b132"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{gfw_base_url}}/products/variants/:uuid",
+									"host": ["{{gfw_base_url}}"],
+									"path": ["products", "variants", ":uuid"],
+									"variable": [
+										{
+											"key": "uuid",
+											"value": "bde05bfc-d4c7-487f-935a-3d8ea6b17465",
+											"description": "uuid of variant"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get All",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gfw_base_url}}/products?search=razer",
+							"host": ["{{gfw_base_url}}"],
+							"path": ["products"],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": "razer",
+									"description": "search by name"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get by UUID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{gfw_base_url}}/products/:uuid",
+							"host": ["{{gfw_base_url}}"],
+							"path": ["products", ":uuid"],
+							"variable": [
+								{
+									"key": "uuid",
+									"value": "554d5627-be44-4e07-835c-adb777ee23a9"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Razer Mouse",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{gfw_base_url}}/products",
+							"host": ["{{gfw_base_url}}"],
+							"path": ["products"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "produk ini 3 a",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/Users/fasaya/Downloads/ordered.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{gfw_base_url}}/products/:uuid",
+							"host": ["{{gfw_base_url}}"],
+							"path": ["products", ":uuid"],
+							"variable": [
+								{
+									"key": "uuid",
+									"value": "554d5627-be44-4e07-835c-adb777ee23a9"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{gfw_base_url}}/products/:uuid",
+							"host": ["{{gfw_base_url}}"],
+							"path": ["products", ":uuid"],
+							"variable": [
+								{
+									"key": "uuid",
+									"value": "e4a51fe1-4ec3-44bb-b76b-302b44e84f22"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{gfw_bearer}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [""]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [""]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [""]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [""]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "gfw_base_url",
+			"value": "https://gfw-cohort-4-final-project-production.up.railway.app",
+			"type": "string"
+		},
+		{
+			"key": "gfw_bearer",
+			"value": ""
+		}
+	]
+}
