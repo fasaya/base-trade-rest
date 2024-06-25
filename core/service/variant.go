@@ -14,7 +14,7 @@ type VariantService struct {
 
 type IVariantService interface {
 	CreateVariant(*model.Variant) (*model.Variant, error)
-	GetListVariant() ([]model.Variant, error)
+	GetListVariant(pageNumber int, search string) ([]model.Variant, error)
 	GetDetailVariantByUUID(string) (*model.Variant, error)
 	UpdateVariant(*model.Variant) (*model.Variant, error)
 	DeleteVariantByUUID(string) error
@@ -39,8 +39,8 @@ func (s *VariantService) CreateVariant(variant *model.Variant) (*model.Variant, 
 	return result, nil
 }
 
-func (s *VariantService) GetListVariant() ([]model.Variant, error) {
-	result, err := s.variantRepo.GetAllVariant()
+func (s *VariantService) GetListVariant(pageNumber int, search string) ([]model.Variant, error) {
+	result, err := s.variantRepo.GetAllVariant(pageNumber, search)
 	if err != nil {
 		return nil, err
 	}

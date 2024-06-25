@@ -14,7 +14,7 @@ type ProductService struct {
 
 type IProductService interface {
 	CreateProduct(*model.Product) (*model.Product, error)
-	GetListProduct() ([]model.Product, error)
+	GetListProduct(pageNumber int, search string) ([]model.Product, error)
 	GetDetailProductByUUID(string) (*model.Product, error)
 	UpdateProduct(*model.Product) (*model.Product, error)
 	DeleteProductByUUID(string) error
@@ -39,8 +39,8 @@ func (s *ProductService) CreateProduct(product *model.Product) (*model.Product, 
 	return result, nil
 }
 
-func (s *ProductService) GetListProduct() ([]model.Product, error) {
-	result, err := s.productRepo.GetAllProduct()
+func (s *ProductService) GetListProduct(pageNumber int, search string) ([]model.Product, error) {
+	result, err := s.productRepo.GetAllProduct(pageNumber, search)
 	if err != nil {
 		return nil, err
 	}

@@ -29,7 +29,21 @@ func NewVariantHandler(variantService service.IVariantService) VariantHandler {
 }
 
 func (h VariantHandler) Index(ctx *gin.Context) {
-	variant, err := h.VariantService.GetListVariant()
+	var request request.PaginateRequest
+
+	err := ctx.ShouldBind(&request)
+	if err != nil {
+		helpers.CreateFailedResponse(ctx, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	err = h.Validate.Struct(request)
+	if err != nil {
+		helpers.HandleValidationError(ctx, err, &helpers.Translator)
+		return
+	}
+
+	variant, err := h.VariantService.GetListVariant(request.Page, request.Search)
 
 	if err != nil {
 		helpers.CreateFailedResponse(ctx, http.StatusBadRequest, err.Error())
