@@ -14,7 +14,7 @@ type ProductRepository struct {
 type IProductRepository interface {
 	CreateProduct(*model.Product) (*model.Product, error)
 	GetDetailProduct(uint) (*model.Product, error)
-	GetAllProduct() ([]model.Product, error)
+	GetAllProduct(pageNumber int, search string) ([]model.Product, error)
 	UpdateProduct(*model.Product) (*model.Product, error)
 	DeleteProduct(uint) error
 	GetProductByKey(string, interface{}) (*model.Product, error)
@@ -44,12 +44,20 @@ func (r *ProductRepository) GetDetailProduct(id uint) (*model.Product, error) {
 	return &product, nil
 }
 
-func (r *ProductRepository) GetAllProduct() ([]model.Product, error) {
+func (r *ProductRepository) GetAllProduct(pageNumber int, search string) ([]model.Product, error) {
 	var products []model.Product
-	err := r.db.Order("id desc").Preload("Variants").Find(&products).Error
+	pageSize := 10
+	query := r.db
+
+	if search != "" {
+		query = query.Where("name LIKE ?", "%"+search+"%")
+	}
+
+	err := query.Preload("Variants").Order("id desc").Limit(pageSize).Offset((pageNumber - 1) * pageSize).Find(&products).Error
 	if err != nil {
 		return nil, err
 	}
+
 	return products, nil
 }
 
