@@ -16,6 +16,12 @@ var (
 
 func StartDB() {
 
+	// Load env
+	// err := godotenv.Load()
+	// if err != nil {
+	// 	log.Fatal(err.Error())
+	// }
+
 	host := os.Getenv("DB_HOST")
 	user := os.Getenv("DB_USER")
 	password := os.Getenv("DB_PASSWORD")
