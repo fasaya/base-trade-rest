@@ -14,7 +14,7 @@ type VariantRepository struct {
 type IVariantRepository interface {
 	CreateVariant(*model.Variant) (*model.Variant, error)
 	GetDetailVariant(uint) (*model.Variant, error)
-	GetAllVariant() ([]model.Variant, error)
+	GetAllVariant(pageNumber int, search string) ([]model.Variant, error)
 	UpdateVariant(*model.Variant) (*model.Variant, error)
 	DeleteVariant(uint) error
 	GetVariantByKey(string, interface{}) (*model.Variant, error)
@@ -44,12 +44,20 @@ func (r *VariantRepository) GetDetailVariant(id uint) (*model.Variant, error) {
 	return &variant, nil
 }
 
-func (r *VariantRepository) GetAllVariant() ([]model.Variant, error) {
+func (r *VariantRepository) GetAllVariant(pageNumber int, search string) ([]model.Variant, error) {
 	var variants []model.Variant
-	err := r.db.Order("id desc").Find(&variants).Error
+	pageSize := 10
+	query := r.db
+
+	if search != "" {
+		query = query.Where("name LIKE ?", "%"+search+"%")
+	}
+
+	err := query.Order("id desc").Limit(pageSize).Offset((pageNumber - 1) * pageSize).Find(&variants).Error
 	if err != nil {
 		return nil, err
 	}
+
 	return variants, nil
 }
 
