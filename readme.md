@@ -2,7 +2,6 @@
 
 **This repo is the Final Project from Golang For Women 2024 class.**
 
----
 
 Access the [API URL](https://gfw-cohort-4-final-project-production.up.railway.app/)
 
