@@ -82,7 +82,10 @@ func (r *ProductRepository) GetAllProduct(req request.PaginateRequest) ([]model.
 
 	query = query.Order("id desc")
 
-	err = query.Preload("Variants").Find(&products).Error
+	err = query.Preload("Variants").Preload("User", func(db *gorm.DB) *gorm.DB {
+		return db.Select("ID", "UUID", "Name", "Email")
+	}).Find(&products).Error
+
 	if err != nil {
 		return nil, helpers.PaginationResponse{}, err
 	}
@@ -125,7 +128,9 @@ func (r *ProductRepository) DeleteProduct(id uint) error {
 
 func (r *ProductRepository) GetProductByKey(field string, value interface{}) (*model.Product, error) {
 	var product model.Product
-	err := r.db.Where(field+" = ?", value).First(&product).Error
+	err := r.db.Where(field+" = ?", value).Preload("Variants").Preload("User", func(db *gorm.DB) *gorm.DB {
+		return db.Select("ID", "UUID", "Name", "Email")
+	}).First(&product).Error
 	if err != nil {
 		return nil, err
 	}
@@ -140,7 +145,9 @@ func (r *ProductRepository) GetProductByMultipleKey(req []request.FieldValueRequ
 		query = query.Where(v.Field+" = ?", v.Value)
 	}
 
-	err := query.First(&product).Error
+	err := query.Preload("Variants").Preload("User", func(db *gorm.DB) *gorm.DB {
+		return db.Select("ID", "UUID", "Name", "Email")
+	}).First(&product).Error
 	if err != nil {
 		return nil, err
 	}
