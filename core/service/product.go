@@ -2,6 +2,7 @@ package service
 
 import (
 	"base-trade-rest/api/request"
+	"base-trade-rest/core/helpers"
 	"base-trade-rest/core/model"
 	"base-trade-rest/core/repository"
 
@@ -14,7 +15,7 @@ type ProductService struct {
 
 type IProductService interface {
 	CreateProduct(*model.Product) (*model.Product, error)
-	GetListProduct(pageNumber int, search string) ([]model.Product, error)
+	GetListProduct(req request.PaginateRequest) ([]model.Product, helpers.PaginationResponse, error)
 	GetDetailProductByUUID(string) (*model.Product, error)
 	UpdateProduct(*model.Product) (*model.Product, error)
 	DeleteProductByUUID(string) error
@@ -39,12 +40,13 @@ func (s *ProductService) CreateProduct(product *model.Product) (*model.Product, 
 	return result, nil
 }
 
-func (s *ProductService) GetListProduct(pageNumber int, search string) ([]model.Product, error) {
-	result, err := s.productRepo.GetAllProduct(pageNumber, search)
+func (s *ProductService) GetListProduct(req request.PaginateRequest) ([]model.Product, helpers.PaginationResponse, error) {
+	result, paginationResponse, err := s.productRepo.GetAllProduct(req)
 	if err != nil {
-		return nil, err
+		return nil, helpers.PaginationResponse{}, err
 	}
-	return result, nil
+
+	return result, paginationResponse, nil
 }
 
 func (s *ProductService) GetDetailProductByUUID(uuid string) (*model.Product, error) {

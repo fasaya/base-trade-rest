@@ -40,14 +40,13 @@ func (h *ProductHandler) Index(ctx *gin.Context) {
 		return
 	}
 
-	products, err := h.ProductService.GetListProduct(request.Page, request.Search)
-
+	products, paginationMeta, err := h.ProductService.GetListProduct(request)
 	if err != nil {
 		helpers.CreateFailedResponse(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	helpers.CreateSuccessfulResponse(ctx, http.StatusOK, "Data successfully fetched", products)
+	helpers.CreatePaginatedResponse(ctx, http.StatusOK, "Data successfully fetched", products, paginationMeta)
 }
 
 func (h *ProductHandler) Store(ctx *gin.Context) {

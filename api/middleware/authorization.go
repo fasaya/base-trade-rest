@@ -4,6 +4,7 @@ import (
 	"base-trade-rest/core/helpers"
 	"base-trade-rest/core/repository"
 	"base-trade-rest/database"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -26,7 +27,7 @@ func ProductAuthorization() gin.HandlerFunc {
 		}
 
 		if product.UserID != userData.ID {
-			helpers.CreateFailedResponse(ctx, http.StatusUnauthorized, "Unauthorized")
+			helpers.CreateFailedResponse(ctx, http.StatusUnauthorized, "You can only modify your own product's variant")
 			return
 		}
 
@@ -49,8 +50,10 @@ func VariantAuthorization() gin.HandlerFunc {
 			return
 		}
 
+		fmt.Println(variant.Product.UserID, userData.ID)
+
 		if variant.Product.UserID != userData.ID {
-			helpers.CreateFailedResponse(ctx, http.StatusUnauthorized, "Unauthorized")
+			helpers.CreateFailedResponse(ctx, http.StatusUnauthorized, "You can only modify your own Variant")
 			return
 		}
 

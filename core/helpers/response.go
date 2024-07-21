@@ -60,13 +60,16 @@ func CreateSuccessfulResponse(ctx *gin.Context, statusCode int, msg string, data
 	ctx.JSON(statusCode, res)
 }
 
-func CreatePaginatedResponse(statusCode int, msg string, data any, pageMeta PaginationResponse) Response {
-	return Response{
-		Error:   false,
-		Message: msg,
-		Data:    data, Meta: &pageMeta,
+func CreatePaginatedResponse(ctx *gin.Context, statusCode int, msg string, data any, pageMeta PaginationResponse) {
+	var res = Response{
+		Error:      false,
+		Message:    msg,
+		Data:       data,
+		Meta:       &pageMeta,
 		StatusCode: statusCode,
 	}
+
+	ctx.JSON(statusCode, res)
 }
 
 func CreateAuthResponse(token string, role string) AuthResponse {

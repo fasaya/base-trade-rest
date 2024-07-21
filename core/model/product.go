@@ -14,4 +14,5 @@ type Product struct {
 	UpdatedAt *time.Time `json:"update_at"`
 
 	Variants []Variant `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"variants,omitempty"`
+	User     *User     `gorm:"foreignKey:UserID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"user,omitempty"`
 }

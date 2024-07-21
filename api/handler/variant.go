@@ -43,14 +43,13 @@ func (h VariantHandler) Index(ctx *gin.Context) {
 		return
 	}
 
-	variant, err := h.VariantService.GetListVariant(request.Page, request.Search)
-
+	variant, paginationMeta, err := h.VariantService.GetListVariant(request)
 	if err != nil {
 		helpers.CreateFailedResponse(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	helpers.CreateSuccessfulResponse(ctx, http.StatusOK, "Data successfully fetched", variant)
+	helpers.CreatePaginatedResponse(ctx, http.StatusOK, "Data successfully fetched", variant, paginationMeta)
 }
 
 func (h VariantHandler) Store(ctx *gin.Context) {
@@ -72,6 +71,15 @@ func (h VariantHandler) Store(ctx *gin.Context) {
 	product, err := h.ProductRepository.GetProductByKey("uuid", request.ProductID)
 	if err != nil {
 		helpers.CreateFailedResponse(ctx, http.StatusBadRequest, "Product not found")
+		return
+	}
+
+	// Get authenticated user
+	userData := helpers.GetAuthUser(ctx)
+
+	// Check if authenticated user own the product
+	if product.UserID != userData.ID {
+		helpers.CreateFailedResponse(ctx, http.StatusBadRequest, "You can only add variant to your own product")
 		return
 	}
 
@@ -118,16 +126,8 @@ func (h VariantHandler) Update(ctx *gin.Context) {
 		return
 	}
 
-	// Check if product exists
-	product, err := h.ProductRepository.GetProductByKey("uuid", request.ProductID)
-	if err != nil {
-		helpers.CreateFailedResponse(ctx, http.StatusBadRequest, "Product not found")
-		return
-	}
-
 	variant.Name = request.Name
 	variant.Quantity = request.Quantity
-	variant.ProductID = product.ID
 
 	updatedVariant, err := h.VariantService.UpdateVariant(variant)
 	if err != nil {
