@@ -2,6 +2,7 @@ package service
 
 import (
 	"base-trade-rest/api/request"
+	"base-trade-rest/core/helpers"
 	"base-trade-rest/core/model"
 	"base-trade-rest/core/repository"
 
@@ -14,7 +15,7 @@ type VariantService struct {
 
 type IVariantService interface {
 	CreateVariant(*model.Variant) (*model.Variant, error)
-	GetListVariant(pageNumber int, search string) ([]model.Variant, error)
+	GetListVariant(req request.PaginateRequest) ([]model.Variant, helpers.PaginationResponse, error)
 	GetDetailVariantByUUID(string) (*model.Variant, error)
 	UpdateVariant(*model.Variant) (*model.Variant, error)
 	DeleteVariantByUUID(string) error
@@ -39,12 +40,12 @@ func (s *VariantService) CreateVariant(variant *model.Variant) (*model.Variant, 
 	return result, nil
 }
 
-func (s *VariantService) GetListVariant(pageNumber int, search string) ([]model.Variant, error) {
-	result, err := s.variantRepo.GetAllVariant(pageNumber, search)
+func (s *VariantService) GetListVariant(req request.PaginateRequest) ([]model.Variant, helpers.PaginationResponse, error) {
+	result, paginationResponse, err := s.variantRepo.GetAllVariant(req)
 	if err != nil {
-		return nil, err
+		return nil, helpers.PaginationResponse{}, err
 	}
-	return result, nil
+	return result, paginationResponse, nil
 }
 
 func (s *VariantService) GetDetailVariantByUUID(uuid string) (*model.Variant, error) {

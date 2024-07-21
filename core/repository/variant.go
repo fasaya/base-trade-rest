@@ -2,6 +2,7 @@ package repository
 
 import (
 	"base-trade-rest/api/request"
+	"base-trade-rest/core/helpers"
 	"base-trade-rest/core/model"
 
 	"gorm.io/gorm"
@@ -14,7 +15,7 @@ type VariantRepository struct {
 type IVariantRepository interface {
 	CreateVariant(*model.Variant) (*model.Variant, error)
 	GetDetailVariant(uint) (*model.Variant, error)
-	GetAllVariant(pageNumber int, search string) ([]model.Variant, error)
+	GetAllVariant(req request.PaginateRequest) ([]model.Variant, helpers.PaginationResponse, error)
 	UpdateVariant(*model.Variant) (*model.Variant, error)
 	DeleteVariant(uint) error
 	GetVariantByKey(string, interface{}) (*model.Variant, error)
@@ -44,21 +45,63 @@ func (r *VariantRepository) GetDetailVariant(id uint) (*model.Variant, error) {
 	return &variant, nil
 }
 
-func (r *VariantRepository) GetAllVariant(pageNumber int, search string) ([]model.Variant, error) {
+func (r *VariantRepository) GetAllVariant(req request.PaginateRequest) ([]model.Variant, helpers.PaginationResponse, error) {
 	var variants []model.Variant
-	pageSize := 10
-	query := r.db
+	var total int64
+	var lastPage int64
 
-	if search != "" {
-		query = query.Where("name LIKE ?", "%"+search+"%")
+	// Set default limit
+	if req.Limit <= 0 {
+		req.Limit = 10
 	}
 
-	err := query.Order("id desc").Limit(pageSize).Offset((pageNumber - 1) * pageSize).Find(&variants).Error
+	// Set default page number
+	if req.Page <= 0 {
+		req.Page = 1
+	}
+
+	// if req.Sort != "" && req.Sort[0] == '-' {
+	// 	req.Sort = req.Sort[1:] + " DESC"
+	// }
+
+	query := r.db.Model(&model.Variant{})
+
+	if req.Search != "" {
+		query = query.Where("name LIKE ?", "%"+req.Search+"%")
+	}
+
+	// Count the total number of records matching the search criteria
+	err := query.Count(&total).Error
 	if err != nil {
-		return nil, err
+		return nil, helpers.PaginationResponse{}, err
 	}
 
-	return variants, nil
+	if req.Limit > 0 {
+		query = query.Limit(req.Limit).Offset((req.Page - 1) * req.Limit)
+	}
+
+	query = query.Order("id desc")
+
+	err = query.Find(&variants).Error
+	if err != nil {
+		return nil, helpers.PaginationResponse{}, err
+	}
+
+	// Calculate the last page, ensure req.Limit is greater than zero
+	if req.Limit > 0 {
+		lastPage = (total + int64(req.Limit) - 1) / int64(req.Limit)
+	} else {
+		lastPage = 0
+	}
+
+	paginationResponse := helpers.PaginationResponse{
+		Page:     int64(req.Page),
+		Limit:    int64(req.Limit),
+		LastPage: lastPage,
+		Total:    total,
+	}
+
+	return variants, paginationResponse, nil
 }
 
 func (r *VariantRepository) UpdateVariant(variant *model.Variant) (*model.Variant, error) {

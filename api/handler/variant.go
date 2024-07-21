@@ -43,14 +43,13 @@ func (h VariantHandler) Index(ctx *gin.Context) {
 		return
 	}
 
-	variant, err := h.VariantService.GetListVariant(request.Page, request.Search)
-
+	variant, paginationMeta, err := h.VariantService.GetListVariant(request)
 	if err != nil {
 		helpers.CreateFailedResponse(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	helpers.CreateSuccessfulResponse(ctx, http.StatusOK, "Data successfully fetched", variant)
+	helpers.CreatePaginatedResponse(ctx, http.StatusOK, "Data successfully fetched", variant, paginationMeta)
 }
 
 func (h VariantHandler) Store(ctx *gin.Context) {
