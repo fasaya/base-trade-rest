@@ -19,12 +19,12 @@
 							"formdata": [
 								{
 									"key": "email",
-									"value": "ade@mail.com",
+									"value": "ajax@mail.com",
 									"type": "text"
 								},
 								{
 									"key": "name",
-									"value": "ade",
+									"value": "aya",
 									"type": "text"
 								},
 								{
@@ -36,11 +36,77 @@
 						},
 						"url": {
 							"raw": "{{gfw_base_url}}/auth/register",
-							"host": ["{{gfw_base_url}}"],
-							"path": ["auth", "register"]
+							"host": [
+								"{{gfw_base_url}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Register",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "ajax@mail.com",
+											"type": "text"
+										},
+										{
+											"key": "name",
+											"value": "aya",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "12345678",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://gfw-cohort-4-final-project-production.up.railway.app/auth/register",
+									"protocol": "https",
+									"host": [
+										"gfw-cohort-4-final-project-production",
+										"up",
+										"railway",
+										"app"
+									],
+									"path": [
+										"auth",
+										"register"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 21 Jul 2024 10:12:47 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "250"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Registered successfully\",\n    \"error\": false,\n    \"status_code\": 200,\n    \"data\": {\n        \"uuid\": \"4808fcf4-0835-419c-82af-dd14c383b0bc\",\n        \"name\": \"aya\",\n        \"email\": \"ajax@mail.com\",\n        \"created_at\": \"2024-07-21T18:12:47.032+08:00\",\n        \"update_at\": \"2024-07-21T18:12:47.032+08:00\"\n    }\n}"
+						}
+					]
 				},
 				{
 					"name": "Login",
@@ -72,7 +138,7 @@
 							"urlencoded": [
 								{
 									"key": "email",
-									"value": "ade@mail.com",
+									"value": "aya@mail.com",
 									"type": "text"
 								},
 								{
@@ -84,11 +150,72 @@
 						},
 						"url": {
 							"raw": "{{gfw_base_url}}/auth/login",
-							"host": ["{{gfw_base_url}}"],
-							"path": ["auth", "login"]
+							"host": [
+								"{{gfw_base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "email",
+											"value": "aya@mail.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "12345678",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://gfw-cohort-4-final-project-production.up.railway.app/auth/login",
+									"protocol": "https",
+									"host": [
+										"gfw-cohort-4-final-project-production",
+										"up",
+										"railway",
+										"app"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 21 Jul 2024 10:12:30 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "432"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Login successfully\",\n    \"error\": false,\n    \"status_code\": 200,\n    \"data\": {\n        \"uuid\": \"31f44097-fc13-400d-93bc-c0d65271e642\",\n        \"name\": \"aya\",\n        \"email\": \"aya@mail.com\",\n        \"created_at\": \"2024-06-22T18:34:20.126+08:00\",\n        \"update_at\": \"2024-06-22T18:34:20.126+08:00\",\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF5YUBtYWlsLmNvbSIsImV4cCI6IjIwMjQtMDctMjFUMTg6MjI6MzAuNTgzMjg0KzA4OjAwIiwiaWQiOjF9.lzf2FrqQCICH7gnE4S7Y-L3iHNrKDt3FxRblB297lYQ\"\n    }\n}"
+						}
+					]
 				}
 			]
 		},
@@ -107,23 +234,90 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{gfw_base_url}}/products/variants?page=1&search=Rosegold",
-									"host": ["{{gfw_base_url}}"],
-									"path": ["products", "variants"],
+									"raw": "{{gfw_base_url}}/products/variants?page=2&limit=2",
+									"host": [
+										"{{gfw_base_url}}"
+									],
+									"path": [
+										"products",
+										"variants"
+									],
 									"query": [
 										{
 											"key": "page",
-											"value": "1"
+											"value": "2"
 										},
 										{
 											"key": "search",
-											"value": "Rosegold",
-											"description": "search by variant name"
+											"value": "128GB",
+											"description": "search by variant name",
+											"disabled": true
+										},
+										{
+											"key": "limit",
+											"value": "2"
 										}
 									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"name": "Get All",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://gfw-cohort-4-final-project-production.up.railway.app/products/variants?page=2&limit=2",
+											"protocol": "https",
+											"host": [
+												"gfw-cohort-4-final-project-production",
+												"up",
+												"railway",
+												"app"
+											],
+											"path": [
+												"products",
+												"variants"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "2"
+												},
+												{
+													"key": "search",
+													"value": "128GB",
+													"description": "search by variant name",
+													"disabled": true
+												},
+												{
+													"key": "limit",
+													"value": "2"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 21 Jul 2024 09:55:36 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "521"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Data successfully fetched\",\n    \"error\": false,\n    \"status_code\": 200,\n    \"data\": [\n        {\n            \"id\": 4,\n            \"uuid\": \"ad2d8c85-76a4-4fde-9b02-dc7ccc01955c\",\n            \"Name\": \"256GB Silver\",\n            \"Quantity\": 10,\n            \"ProductID\": 5,\n            \"created_at\": \"2024-06-25T19:19:33.218+08:00\",\n            \"update_at\": \"2024-06-25T19:19:33.218+08:00\"\n        },\n        {\n            \"id\": 3,\n            \"uuid\": \"e9a42bcb-0b94-46db-a212-544f92518b9e\",\n            \"Name\": \"Death Adder 2\",\n            \"Quantity\": 10,\n            \"ProductID\": 6,\n            \"created_at\": \"2024-06-25T19:18:25.203+08:00\",\n            \"update_at\": \"2024-06-25T19:18:25.203+08:00\"\n        }\n    ],\n    \"meta\": {\n        \"page\": 2,\n        \"limit\": 2,\n        \"last_page\": 3,\n        \"total\": 5\n    }\n}"
+								}
+							]
 						},
 						{
 							"name": "Get by UUID",
@@ -135,8 +329,14 @@
 								"header": [],
 								"url": {
 									"raw": "{{gfw_base_url}}/products/variants/:uuid",
-									"host": ["{{gfw_base_url}}"],
-									"path": ["products", "variants", ":uuid"],
+									"host": [
+										"{{gfw_base_url}}"
+									],
+									"path": [
+										"products",
+										"variants",
+										":uuid"
+									],
 									"variable": [
 										{
 											"key": "uuid",
@@ -146,7 +346,56 @@
 									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"name": "Get by UUID",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://gfw-cohort-4-final-project-production.up.railway.app/products/variants/:uuid",
+											"protocol": "https",
+											"host": [
+												"gfw-cohort-4-final-project-production",
+												"up",
+												"railway",
+												"app"
+											],
+											"path": [
+												"products",
+												"variants",
+												":uuid"
+											],
+											"variable": [
+												{
+													"key": "uuid",
+													"value": "a6478bd2-dbb0-49c9-b63c-40f92583e6dd",
+													"description": "uuid of variant"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 21 Jul 2024 10:14:39 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "485"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Data successfully fetched\",\n    \"error\": false,\n    \"status_code\": 200,\n    \"data\": {\n        \"id\": 5,\n        \"uuid\": \"a6478bd2-dbb0-49c9-b63c-40f92583e6dd\",\n        \"name\": \"128GB Midnight\",\n        \"quantity\": 12,\n        \"product_id\": 5,\n        \"created_at\": \"2024-06-25T19:20:09.981+08:00\",\n        \"update_at\": \"2024-06-25T19:20:09.981+08:00\",\n        \"product\": {\n            \"id\": 5,\n            \"uuid\": \"7d9fdb3e-0545-4a3a-8acf-2a56b1f8e4bb\",\n            \"name\": \"Macbook Pro M1 2019\",\n            \"image_url\": \"\",\n            \"user_id\": 2,\n            \"created_at\": \"2024-06-25T19:04:53.353+08:00\",\n            \"update_at\": \"2024-06-25T19:04:53.353+08:00\"\n        }\n    }\n}"
+								}
+							]
 						},
 						{
 							"name": "Create",
@@ -158,13 +407,13 @@
 									"formdata": [
 										{
 											"key": "product_id",
-											"value": "7d9fdb3e-0545-4a3a-8acf-2a56b1f8e4bb",
+											"value": "554d5627-be44-4e07-835c-adb777ee23a9",
 											"description": "uuid of product",
 											"type": "text"
 										},
 										{
 											"key": "name",
-											"value": "128GB Rosegold",
+											"value": "White 10GB",
 											"type": "text"
 										},
 										{
@@ -176,11 +425,78 @@
 								},
 								"url": {
 									"raw": "{{gfw_base_url}}/products/variants",
-									"host": ["{{gfw_base_url}}"],
-									"path": ["products", "variants"]
+									"host": [
+										"{{gfw_base_url}}"
+									],
+									"path": [
+										"products",
+										"variants"
+									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"name": "Create",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "product_id",
+													"value": "554d5627-be44-4e07-835c-adb777ee23a9",
+													"description": "uuid of product",
+													"type": "text"
+												},
+												{
+													"key": "name",
+													"value": "White 10GB",
+													"type": "text"
+												},
+												{
+													"key": "quantity",
+													"value": "12",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "https://gfw-cohort-4-final-project-production.up.railway.app/products/variants",
+											"protocol": "https",
+											"host": [
+												"gfw-cohort-4-final-project-production",
+												"up",
+												"railway",
+												"app"
+											],
+											"path": [
+												"products",
+												"variants"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 21 Jul 2024 10:15:44 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "271"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Data successfully created\",\n    \"error\": false,\n    \"status_code\": 200,\n    \"data\": {\n        \"id\": 8,\n        \"uuid\": \"dae89a56-db16-499d-ba29-56431c0afd8a\",\n        \"name\": \"White 10GB\",\n        \"quantity\": 12,\n        \"product_id\": 3,\n        \"created_at\": \"2024-07-21T18:15:44.035+08:00\",\n        \"update_at\": \"2024-07-21T18:15:44.035+08:00\"\n    }\n}"
+								}
+							]
 						},
 						{
 							"name": "Update",
@@ -192,7 +508,7 @@
 									"formdata": [
 										{
 											"key": "name",
-											"value": "Macbook Air M2 2022",
+											"value": "Gold 64GB",
 											"description": "string",
 											"type": "text"
 										},
@@ -201,27 +517,93 @@
 											"value": "99",
 											"description": "integer",
 											"type": "text"
-										},
-										{
-											"key": "product_id",
-											"value": "659ba7b5-c240-48c0-9d31-292b29f3575c",
-											"type": "text"
 										}
 									]
 								},
 								"url": {
 									"raw": "{{gfw_base_url}}/products/variants/:uuid",
-									"host": ["{{gfw_base_url}}"],
-									"path": ["products", "variants", ":uuid"],
+									"host": [
+										"{{gfw_base_url}}"
+									],
+									"path": [
+										"products",
+										"variants",
+										":uuid"
+									],
 									"variable": [
 										{
 											"key": "uuid",
-											"value": "f8e508b8-84d8-4cac-bc22-c0b09c58b132"
+											"value": "dae89a56-db16-499d-ba29-56431c0afd8a"
 										}
 									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"name": "Update",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "name",
+													"value": "Gold 64GB",
+													"description": "string",
+													"type": "text"
+												},
+												{
+													"key": "quantity",
+													"value": "99",
+													"description": "integer",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "https://gfw-cohort-4-final-project-production.up.railway.app/products/variants/:uuid",
+											"protocol": "https",
+											"host": [
+												"gfw-cohort-4-final-project-production",
+												"up",
+												"railway",
+												"app"
+											],
+											"path": [
+												"products",
+												"variants",
+												":uuid"
+											],
+											"variable": [
+												{
+													"key": "uuid",
+													"value": "dae89a56-db16-499d-ba29-56431c0afd8a"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 21 Jul 2024 10:27:46 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "587"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Data successfully updated\",\n    \"error\": false,\n    \"status_code\": 200,\n    \"data\": {\n        \"id\": 8,\n        \"uuid\": \"dae89a56-db16-499d-ba29-56431c0afd8a\",\n        \"name\": \"Gold 64GB\",\n        \"quantity\": 99,\n        \"product_id\": 3,\n        \"created_at\": \"2024-07-21T18:15:44.035+08:00\",\n        \"update_at\": \"2024-07-21T18:27:46.62+08:00\",\n        \"product\": {\n            \"id\": 3,\n            \"uuid\": \"554d5627-be44-4e07-835c-adb777ee23a9\",\n            \"name\": \"Apple iPad\",\n            \"image_url\": \"https://res.cloudinary.com/dhamhtto7/image/upload/v1721557654/golang-for-women-2024/1x0uk7PcaanRDZp20240721182732.png\",\n            \"user_id\": 1,\n            \"created_at\": \"2024-06-23T11:48:31.159+08:00\",\n            \"update_at\": \"2024-07-21T18:27:34.707+08:00\"\n        }\n    }\n}"
+								}
+							]
 						},
 						{
 							"name": "Delete",
@@ -230,18 +612,73 @@
 								"header": [],
 								"url": {
 									"raw": "{{gfw_base_url}}/products/variants/:uuid",
-									"host": ["{{gfw_base_url}}"],
-									"path": ["products", "variants", ":uuid"],
+									"host": [
+										"{{gfw_base_url}}"
+									],
+									"path": [
+										"products",
+										"variants",
+										":uuid"
+									],
 									"variable": [
 										{
 											"key": "uuid",
-											"value": "bde05bfc-d4c7-487f-935a-3d8ea6b17465",
+											"value": "dae89a56-db16-499d-ba29-56431c0afd8a",
 											"description": "uuid of variant"
 										}
 									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"name": "Delete",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "https://gfw-cohort-4-final-project-production.up.railway.app/products/variants/:uuid",
+											"protocol": "https",
+											"host": [
+												"gfw-cohort-4-final-project-production",
+												"up",
+												"railway",
+												"app"
+											],
+											"path": [
+												"products",
+												"variants",
+												":uuid"
+											],
+											"variable": [
+												{
+													"key": "uuid",
+													"value": "dae89a56-db16-499d-ba29-56431c0afd8a",
+													"description": "uuid of variant"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 21 Jul 2024 10:27:58 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "71"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Data successfully deleted\",\n    \"error\": false,\n    \"status_code\": 200\n}"
+								}
+							]
 						}
 					]
 				},
@@ -254,24 +691,92 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{gfw_base_url}}/products?search=razer",
-							"host": ["{{gfw_base_url}}"],
-							"path": ["products"],
+							"raw": "{{gfw_base_url}}/products",
+							"host": [
+								"{{gfw_base_url}}"
+							],
+							"path": [
+								"products"
+							],
 							"query": [
 								{
 									"key": "page",
-									"value": "0",
+									"value": "3",
 									"disabled": true
 								},
 								{
 									"key": "search",
 									"value": "razer",
-									"description": "search by name"
+									"description": "search by name",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "2",
+									"disabled": true
 								}
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Get All",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://gfw-cohort-4-final-project-production.up.railway.app/products",
+									"protocol": "https",
+									"host": [
+										"gfw-cohort-4-final-project-production",
+										"up",
+										"railway",
+										"app"
+									],
+									"path": [
+										"products"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "3",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "razer",
+											"description": "search by name",
+											"disabled": true
+										},
+										{
+											"key": "limit",
+											"value": "2",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 21 Jul 2024 10:13:00 GMT"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Data successfully fetched\",\n    \"error\": false,\n    \"status_code\": 200,\n    \"data\": [\n        {\n            \"id\": 6,\n            \"uuid\": \"30d9dfcb-36a1-4332-8e32-9ecb02a995c9\",\n            \"name\": \"Razer Mouse\",\n            \"image_url\": \"\",\n            \"user_id\": 2,\n            \"created_at\": \"2024-06-25T19:05:13.655+08:00\",\n            \"update_at\": \"2024-06-25T19:05:13.655+08:00\",\n            \"variants\": [\n                {\n                    \"id\": 2,\n                    \"uuid\": \"d0bfd024-69ae-4c06-accb-fc1833d3421a\",\n                    \"name\": \"Gold 64GB\",\n                    \"quantity\": 99,\n                    \"product_id\": 6,\n                    \"created_at\": \"2024-06-25T19:05:32.991+08:00\",\n                    \"update_at\": \"2024-07-21T18:09:16.042+08:00\"\n                },\n                {\n                    \"id\": 3,\n                    \"uuid\": \"e9a42bcb-0b94-46db-a212-544f92518b9e\",\n                    \"name\": \"Death Adder 2\",\n                    \"quantity\": 10,\n                    \"product_id\": 6,\n                    \"created_at\": \"2024-06-25T19:18:25.203+08:00\",\n                    \"update_at\": \"2024-06-25T19:18:25.203+08:00\"\n                },\n                {\n                    \"id\": 7,\n                    \"uuid\": \"c0f17f58-fb48-4102-8496-6f1065b98225\",\n                    \"name\": \"White 10GB\",\n                    \"quantity\": 12,\n                    \"product_id\": 6,\n                    \"created_at\": \"2024-07-21T18:06:35.388+08:00\",\n                    \"update_at\": \"2024-07-21T18:06:35.388+08:00\"\n                }\n            ],\n            \"user\": {\n                \"id\": 2,\n                \"uuid\": \"bdd993c3-a5da-4bc9-a9b3-0b05c20e7050\",\n                \"name\": \"ade\",\n                \"email\": \"ade@mail.com\",\n                \"created_at\": null,\n                \"update_at\": null\n            }\n        },\n        {\n            \"id\": 5,\n            \"uuid\": \"7d9fdb3e-0545-4a3a-8acf-2a56b1f8e4bb\",\n            \"name\": \"Macbook Pro M1 2019\",\n            \"image_url\": \"\",\n            \"user_id\": 2,\n            \"created_at\": \"2024-06-25T19:04:53.353+08:00\",\n            \"update_at\": \"2024-06-25T19:04:53.353+08:00\",\n            \"variants\": [\n                {\n                    \"id\": 4,\n                    \"uuid\": \"ad2d8c85-76a4-4fde-9b02-dc7ccc01955c\",\n                    \"name\": \"256GB Silver\",\n                    \"quantity\": 10,\n                    \"product_id\": 5,\n                    \"created_at\": \"2024-06-25T19:19:33.218+08:00\",\n                    \"update_at\": \"2024-06-25T19:19:33.218+08:00\"\n                },\n                {\n                    \"id\": 5,\n                    \"uuid\": \"a6478bd2-dbb0-49c9-b63c-40f92583e6dd\",\n                    \"name\": \"128GB Midnight\",\n                    \"quantity\": 12,\n                    \"product_id\": 5,\n                    \"created_at\": \"2024-06-25T19:20:09.981+08:00\",\n                    \"update_at\": \"2024-06-25T19:20:09.981+08:00\"\n                },\n                {\n                    \"id\": 6,\n                    \"uuid\": \"5a2add4f-a63d-4ff6-8382-0ce4281a59e3\",\n                    \"name\": \"128GB Rosegold\",\n                    \"quantity\": 12,\n                    \"product_id\": 5,\n                    \"created_at\": \"2024-06-25T19:23:56.874+08:00\",\n                    \"update_at\": \"2024-06-25T19:23:56.874+08:00\"\n                }\n            ],\n            \"user\": {\n                \"id\": 2,\n                \"uuid\": \"bdd993c3-a5da-4bc9-a9b3-0b05c20e7050\",\n                \"name\": \"ade\",\n                \"email\": \"ade@mail.com\",\n                \"created_at\": null,\n                \"update_at\": null\n            }\n        },\n        {\n            \"id\": 4,\n            \"uuid\": \"385391f1-7a3d-4e1f-bdfd-543346f4e3d6\",\n            \"name\": \"produk ini 3\",\n            \"image_url\": \"https://res.cloudinary.com/dhamhtto7/image/upload/v1719298275/golang-for-women-2024/159xxED2sTpEQsw20240625145113.png\",\n            \"user_id\": 1,\n            \"created_at\": \"2024-06-25T14:51:16.029+08:00\",\n            \"update_at\": \"2024-06-25T14:51:16.029+08:00\",\n            \"user\": {\n                \"id\": 1,\n                \"uuid\": \"31f44097-fc13-400d-93bc-c0d65271e642\",\n                \"name\": \"aya\",\n                \"email\": \"aya@mail.com\",\n                \"created_at\": null,\n                \"update_at\": null\n            }\n        },\n        {\n            \"id\": 3,\n            \"uuid\": \"554d5627-be44-4e07-835c-adb777ee23a9\",\n            \"name\": \"produk ini 3 a\",\n            \"image_url\": \"https://res.cloudinary.com/dhamhtto7/image/upload/v1719114588/golang-for-women-2024/F7CitF5x8TgvYO620240623114948.png\",\n            \"user_id\": 1,\n            \"created_at\": \"2024-06-23T11:48:31.159+08:00\",\n            \"update_at\": \"2024-06-23T11:49:49.502+08:00\",\n            \"user\": {\n                \"id\": 1,\n                \"uuid\": \"31f44097-fc13-400d-93bc-c0d65271e642\",\n                \"name\": \"aya\",\n                \"email\": \"aya@mail.com\",\n                \"created_at\": null,\n                \"update_at\": null\n            }\n        },\n        {\n            \"id\": 1,\n            \"uuid\": \"e2889c31-09e4-4e17-af1b-c428f46c4640\",\n            \"name\": \"produk ini 3\",\n            \"image_url\": \"\",\n            \"user_id\": 1,\n            \"created_at\": \"2024-06-22T18:34:35.309+08:00\",\n            \"update_at\": \"2024-06-22T18:34:35.309+08:00\",\n            \"user\": {\n                \"id\": 1,\n                \"uuid\": \"31f44097-fc13-400d-93bc-c0d65271e642\",\n                \"name\": \"aya\",\n                \"email\": \"aya@mail.com\",\n                \"created_at\": null,\n                \"update_at\": null\n            }\n        }\n    ],\n    \"meta\": {\n        \"page\": 1,\n        \"limit\": 10,\n        \"last_page\": 1,\n        \"total\": 5\n    }\n}"
+						}
+					]
 				},
 				{
 					"name": "Get by UUID",
@@ -290,17 +795,73 @@
 						},
 						"url": {
 							"raw": "{{gfw_base_url}}/products/:uuid",
-							"host": ["{{gfw_base_url}}"],
-							"path": ["products", ":uuid"],
+							"host": [
+								"{{gfw_base_url}}"
+							],
+							"path": [
+								"products",
+								":uuid"
+							],
 							"variable": [
 								{
 									"key": "uuid",
-									"value": "554d5627-be44-4e07-835c-adb777ee23a9"
+									"value": "dae89a56-db16-499d-ba29-56431c0afd8a"
 								}
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Get by UUID",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "https://gfw-cohort-4-final-project-production.up.railway.app/products/:uuid",
+									"protocol": "https",
+									"host": [
+										"gfw-cohort-4-final-project-production",
+										"up",
+										"railway",
+										"app"
+									],
+									"path": [
+										"products",
+										":uuid"
+									],
+									"variable": [
+										{
+											"key": "uuid",
+											"value": "30d9dfcb-36a1-4332-8e32-9ecb02a995c9"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 21 Jul 2024 10:13:17 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "997"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Data successfully fetched\",\n    \"error\": false,\n    \"status_code\": 200,\n    \"data\": {\n        \"id\": 6,\n        \"uuid\": \"30d9dfcb-36a1-4332-8e32-9ecb02a995c9\",\n        \"name\": \"Razer Mouse\",\n        \"image_url\": \"\",\n        \"user_id\": 2,\n        \"created_at\": \"2024-06-25T19:05:13.655+08:00\",\n        \"update_at\": \"2024-06-25T19:05:13.655+08:00\",\n        \"variants\": [\n            {\n                \"id\": 2,\n                \"uuid\": \"d0bfd024-69ae-4c06-accb-fc1833d3421a\",\n                \"name\": \"Gold 64GB\",\n                \"quantity\": 99,\n                \"product_id\": 6,\n                \"created_at\": \"2024-06-25T19:05:32.991+08:00\",\n                \"update_at\": \"2024-07-21T18:09:16.042+08:00\"\n            },\n            {\n                \"id\": 3,\n                \"uuid\": \"e9a42bcb-0b94-46db-a212-544f92518b9e\",\n                \"name\": \"Death Adder 2\",\n                \"quantity\": 10,\n                \"product_id\": 6,\n                \"created_at\": \"2024-06-25T19:18:25.203+08:00\",\n                \"update_at\": \"2024-06-25T19:18:25.203+08:00\"\n            },\n            {\n                \"id\": 7,\n                \"uuid\": \"c0f17f58-fb48-4102-8496-6f1065b98225\",\n                \"name\": \"White 10GB\",\n                \"quantity\": 12,\n                \"product_id\": 6,\n                \"created_at\": \"2024-07-21T18:06:35.388+08:00\",\n                \"update_at\": \"2024-07-21T18:06:35.388+08:00\"\n            }\n        ],\n        \"user\": {\n            \"id\": 2,\n            \"uuid\": \"bdd993c3-a5da-4bc9-a9b3-0b05c20e7050\",\n            \"name\": \"ade\",\n            \"email\": \"ade@mail.com\",\n            \"created_at\": null,\n            \"update_at\": null\n        }\n    }\n}"
+						}
+					]
 				},
 				{
 					"name": "Create",
@@ -312,24 +873,90 @@
 							"formdata": [
 								{
 									"key": "name",
-									"value": "Razer Mouse",
+									"value": "Apple iPhone",
 									"type": "text"
 								},
 								{
 									"key": "image",
 									"type": "file",
-									"src": [],
-									"disabled": true
+									"src": []
 								}
 							]
 						},
 						"url": {
 							"raw": "{{gfw_base_url}}/products",
-							"host": ["{{gfw_base_url}}"],
-							"path": ["products"]
+							"host": [
+								"{{gfw_base_url}}"
+							],
+							"path": [
+								"products"
+							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Create",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "Apple iPhone",
+											"type": "text"
+										},
+										{
+											"key": "image",
+											"type": "file",
+											"src": []
+										}
+									]
+								},
+								"url": {
+									"raw": "https://gfw-cohort-4-final-project-production.up.railway.app/products",
+									"protocol": "https",
+									"host": [
+										"gfw-cohort-4-final-project-production",
+										"up",
+										"railway",
+										"app"
+									],
+									"path": [
+										"products"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "261"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 21 Jul 2024 08:52:51 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "railway-edge"
+								},
+								{
+									"key": "X-Request-Id",
+									"value": "GP8D2RmESWC5qn2c8Uu9qQ_1721921752"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Data successfully created\",\n    \"error\": false,\n    \"status_code\": 200,\n    \"data\": {\n        \"id\": 4,\n        \"uuid\": \"5ce04aa5-c15d-4b14-956e-9211e790601a\",\n        \"name\": \"Apple iPhone\",\n        \"image_url\": \"\",\n        \"user_id\": 2,\n        \"created_at\": \"2024-07-21T08:52:51.324Z\",\n        \"update_at\": \"2024-07-21T08:52:51.324Z\"\n    }\n}"
+						}
+					]
 				},
 				{
 					"name": "Update",
@@ -341,7 +968,7 @@
 							"formdata": [
 								{
 									"key": "name",
-									"value": "produk ini 3 a",
+									"value": "Apple iPad",
 									"type": "text"
 								},
 								{
@@ -353,8 +980,13 @@
 						},
 						"url": {
 							"raw": "{{gfw_base_url}}/products/:uuid",
-							"host": ["{{gfw_base_url}}"],
-							"path": ["products", ":uuid"],
+							"host": [
+								"{{gfw_base_url}}"
+							],
+							"path": [
+								"products",
+								":uuid"
+							],
 							"variable": [
 								{
 									"key": "uuid",
@@ -363,7 +995,69 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Update",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "Apple iPad",
+											"type": "text"
+										},
+										{
+											"key": "image",
+											"type": "file",
+											"src": "/Users/fasaya/Downloads/ordered.png"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://gfw-cohort-4-final-project-production.up.railway.app/products/:uuid",
+									"protocol": "https",
+									"host": [
+										"gfw-cohort-4-final-project-production",
+										"up",
+										"railway",
+										"app"
+									],
+									"path": [
+										"products",
+										":uuid"
+									],
+									"variable": [
+										{
+											"key": "uuid",
+											"value": "385391f1-7a3d-4e1f-bdfd-543346f4e3d6"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 21 Jul 2024 10:13:58 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "573"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Data successfully updated\",\n    \"error\": false,\n    \"status_code\": 200,\n    \"data\": {\n        \"id\": 4,\n        \"uuid\": \"385391f1-7a3d-4e1f-bdfd-543346f4e3d6\",\n        \"name\": \"Apple iPad\",\n        \"image_url\": \"https://res.cloudinary.com/dhamhtto7/image/upload/v1721556837/golang-for-women-2024/uIDnA1bQWVvip2Q20240721181354.png\",\n        \"user_id\": 1,\n        \"created_at\": \"2024-06-25T14:51:16.029+08:00\",\n        \"update_at\": \"2024-07-21T18:13:58.081+08:00\",\n        \"user\": {\n            \"id\": 1,\n            \"uuid\": \"31f44097-fc13-400d-93bc-c0d65271e642\",\n            \"name\": \"aya\",\n            \"email\": \"aya@mail.com\",\n            \"created_at\": \"2024-07-21T18:13:58.076+08:00\",\n            \"update_at\": \"2024-07-21T18:13:58.076+08:00\"\n        }\n    }\n}"
+						}
+					]
 				},
 				{
 					"name": "Delete",
@@ -372,17 +1066,69 @@
 						"header": [],
 						"url": {
 							"raw": "{{gfw_base_url}}/products/:uuid",
-							"host": ["{{gfw_base_url}}"],
-							"path": ["products", ":uuid"],
+							"host": [
+								"{{gfw_base_url}}"
+							],
+							"path": [
+								"products",
+								":uuid"
+							],
 							"variable": [
 								{
 									"key": "uuid",
-									"value": "e4a51fe1-4ec3-44bb-b76b-302b44e84f22"
+									"value": "385391f1-7a3d-4e1f-bdfd-543346f4e3d6"
 								}
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Delete",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://gfw-cohort-4-final-project-production.up.railway.app/products/:uuid",
+									"protocol": "https",
+									"host": [
+										"gfw-cohort-4-final-project-production",
+										"up",
+										"railway",
+										"app"
+									],
+									"path": [
+										"products",
+										":uuid"
+									],
+									"variable": [
+										{
+											"key": "uuid",
+											"value": "385391f1-7a3d-4e1f-bdfd-543346f4e3d6"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 21 Jul 2024 10:14:15 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "71"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Data successfully deleted\",\n    \"error\": false,\n    \"status_code\": 200\n}"
+						}
+					]
 				}
 			],
 			"auth": {
@@ -401,7 +1147,9 @@
 					"script": {
 						"type": "text/javascript",
 						"packages": {},
-						"exec": [""]
+						"exec": [
+							""
+						]
 					}
 				},
 				{
@@ -409,7 +1157,9 @@
 					"script": {
 						"type": "text/javascript",
 						"packages": {},
-						"exec": [""]
+						"exec": [
+							""
+						]
 					}
 				}
 			]
@@ -421,7 +1171,9 @@
 			"script": {
 				"type": "text/javascript",
 				"packages": {},
-				"exec": [""]
+				"exec": [
+					""
+				]
 			}
 		},
 		{
@@ -429,7 +1181,9 @@
 			"script": {
 				"type": "text/javascript",
 				"packages": {},
-				"exec": [""]
+				"exec": [
+					""
+				]
 			}
 		}
 	],
